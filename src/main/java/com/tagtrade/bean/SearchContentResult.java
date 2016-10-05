@@ -1,18 +1,19 @@
 package com.tagtrade.bean;
 
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
+import com.tagtrade.dataacess.entity.bean.EContent;
 
-public class SearchThaimtbResult {
 
-	private EThaimtbContent eThaimtbContent;
+public class SearchContentResult {
+
+	private EContent eContent;
 	private Float scoreHit;
 	
-	public EThaimtbContent geteThaimtbContent() {
-		return eThaimtbContent;
+	public EContent geteContent() {
+		return eContent;
 	}
 
-	public void seteThaimtbContent(EThaimtbContent eThaimtbContent) {
-		this.eThaimtbContent = eThaimtbContent;
+	public void seteContent(EContent eContent) {
+		this.eContent = eContent;
 	}
 
 	public Float getScoreHit() {

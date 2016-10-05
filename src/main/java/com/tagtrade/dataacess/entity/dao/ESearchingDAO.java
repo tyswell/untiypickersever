@@ -14,7 +14,7 @@ import com.tagtrade.dataacess.entity.bean.ESearching;
 
 public class ESearchingDAO extends BaseDAO<ESearching> {
 
-  private static final String FIELD_NAMES = "searching_id, description, user_id, create_date, active";
+  private static final String FIELD_NAMES = "searching_id, description, user_id, search_type_code, create_date, active";
 
   protected static final RowMapper<ESearching> ROW_MAPPER = new RowMapper<ESearching>() {
     public ESearching mapRow(ResultSet rs, int index) throws SQLException {
@@ -23,6 +23,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
       result.setSearchingId( (Integer) rs.getObject("searching_id") );
       result.setDescription( rs.getString("description") );
       result.setUserId( (Integer) rs.getObject("user_id") );
+      result.setSearchTypeCode( (Integer) rs.getObject("search_type_code") );
       result.setCreateDate( rs.getTimestamp("create_date") );
       result.setActive( rs.getString("active") );
 
@@ -32,21 +33,22 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   public void insert(final ESearching eSearching) {
     getJdbcTemplate().update(
-        "insert into " + "e_searching (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?)",
+        "insert into e_searching (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setObject(1, eSearching.getSearchingId());
             pstmt.setString(2, eSearching.getDescription());
             pstmt.setObject(3, eSearching.getUserId());
-            pstmt.setTimestamp(4, eSearching.getCreateDate());
-            pstmt.setString(5, eSearching.getActive());
+            pstmt.setObject(4, eSearching.getSearchTypeCode());
+            pstmt.setTimestamp(5, eSearching.getCreateDate());
+            pstmt.setString(6, eSearching.getActive());
           }
         });
   }
 
   public boolean isKeyExist(final Integer searching_id) {
     return (0 != getJdbcTemplate().queryForObject(
-        "select count(*) from " + "e_searching where searching_id = ?",
+        "select count(*) from e_searching where searching_id = ?",
         new Object[] {
             searching_id
         }, Integer.class));
@@ -75,41 +77,42 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   protected List<ESearching> selectWithSuffix(String suffixSql) {
     return (List<ESearching>) getJdbcTemplate().query(
-        "select " + FIELD_NAMES + " from " + "e_searching " + suffixSql,
+        "select " + FIELD_NAMES + " from e_searching " + suffixSql,
         ROW_MAPPER);
   }
 
   protected List<ESearching> selectWithSuffix(String suffixSql, Object... args) {
     return (List<ESearching>) getJdbcTemplate().query(
-        "select " + FIELD_NAMES + " from " + "e_searching " + suffixSql,
+        "select " + FIELD_NAMES + " from e_searching " + suffixSql,
         args,
         ROW_MAPPER);
   }
 
   protected List<ESearching> selectWithSuffix(String suffixSql, PreparedStatementSetter pss) {
     return (List<ESearching>) getJdbcTemplate().query(
-        "select " + FIELD_NAMES + " from " + "e_searching " + suffixSql,
+        "select " + FIELD_NAMES + " from e_searching " + suffixSql,
         pss,
         ROW_MAPPER);
   }
 
   public void updateByKey(final ESearching eSearching) {
     getJdbcTemplate().update(
-        "update " + "e_searching set description = ?, user_id = ?, create_date = ?, active = ? where searching_id = ?",
+        "update e_searching set description = ?, user_id = ?, search_type_code = ?, create_date = ?, active = ? where searching_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, eSearching.getDescription());
             ps.setObject(2, eSearching.getUserId());
-            ps.setTimestamp(3, eSearching.getCreateDate());
-            ps.setString(4, eSearching.getActive());
-            ps.setObject(5, eSearching.getSearchingId());
+            ps.setObject(3, eSearching.getSearchTypeCode());
+            ps.setTimestamp(4, eSearching.getCreateDate());
+            ps.setString(5, eSearching.getActive());
+            ps.setObject(6, eSearching.getSearchingId());
           }
         });
   }
 
   public void deleteByKey(final Integer searching_id) {
     getJdbcTemplate().update(
-        "delete from " + "e_searching where searching_id = ?",
+        "delete from e_searching where searching_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setObject(1, searching_id);
@@ -119,14 +122,15 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-07-13,   13:19:28
+  * Code Generated on   2016-10-03,   14:00:09
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************
   */
   
-  public List<ESearching> getActive(String active) {
+  public List<ESearching> getSearch(String active, List<Integer> searchTypeCode) {
 	  CriteriaBuilder cb = new CriteriaBuilder();
+	  cb.andIn("search_type_code", searchTypeCode);
 	  cb.and("active", active);
 	  return selectWithSuffix(cb);
   }

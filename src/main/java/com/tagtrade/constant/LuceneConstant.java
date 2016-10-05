@@ -4,7 +4,9 @@ public class LuceneConstant {
 	
 	public static final String ID = "ID";
 	public static final String TITLE_CONTENT = "TITLE";
+	public static final String DESCRIP_CONTENT = "DESCRIP";
 	public static final String URL_CODE = "URL_CODE";
+	public static final String FACEBOOK_GROUP_CODE = "FACEBOOK_GROUP_CODE";
 	public static final String URL_CONTENT_LINK = "URL_CONTENT_LINK";
 	public static final String DATE_CONTENT_CREATE = "DATE_CONTENT_CREATE";
 	

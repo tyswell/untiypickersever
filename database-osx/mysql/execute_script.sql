@@ -7,6 +7,7 @@ source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_entity_sea
 
 -- import rdb data
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_URL.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_EXTRACT_TYPE.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_WEB_NAME.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_WEB_TYPE.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_USER_LOGIN_TYPE.sql

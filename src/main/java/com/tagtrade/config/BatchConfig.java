@@ -33,8 +33,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.tagtrade.batch.processor.CustomProcessor;
 import com.tagtrade.batch.writer.CustomWriter;
 import com.tagtrade.bean.BatchOutput;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
-import com.tagtrade.dataacess.entity.bean.ErSeachingMapThaimtb;
+import com.tagtrade.dataacess.entity.bean.EContent;
+import com.tagtrade.dataacess.entity.bean.ErSeachingMapContent;
 import com.tagtrade.dataacess.entity.bean.RUrl;
 
 @Configuration
@@ -50,7 +50,7 @@ public class BatchConfig {
 	public JdbcCursorItemReader<RUrl> reader(DataSource dataSource) {
 		JdbcCursorItemReader<RUrl> jdbc = new JdbcCursorItemReader<RUrl>();
 		jdbc.setDataSource(dataSource);
-		jdbc.setSql("select * from r_url");
+		jdbc.setSql("select * from r_url where active = 'Y'");
 		jdbc.setRowMapper(new BeanPropertyRowMapper<RUrl>(RUrl.class));
 	
 		return jdbc;
@@ -67,19 +67,19 @@ public class BatchConfig {
 	}
 	
 	@Bean
-	public ItemWriter<EThaimtbContent> thaiMtbContentWriter(DataSource dataSource) {
-		JdbcBatchItemWriter<EThaimtbContent> writer = new JdbcBatchItemWriter<EThaimtbContent>();
-        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<EThaimtbContent>());
-        writer.setSql("INSERT INTO `e_thaimtb_content`(`THAIMTB_ID`, `URL_CODE`, `DESCRIPTION`, `URL_CONTENT_LINK`, `DATE_CONTENT_CREATE`) VALUES (:thaimtbId, :urlCode, :description, :urlContentLink, :dateContentCreate)");
+	public ItemWriter<EContent> contentWriter(DataSource dataSource) {
+		JdbcBatchItemWriter<EContent> writer = new JdbcBatchItemWriter<EContent>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<EContent>());
+        writer.setSql("INSERT INTO `e_content`(`content_id`, `URL_CODE`, `facebook_grop_code`, `title`, `description`, `content_web_id`, `URL_CONTENT_LINK`, `DATE_CONTENT_CREATE`) VALUES (:contentId, :urlCode, :facebookGropCode, :title, :description, :contentWebId, :urlContentLink, :dateContentCreate)");
         writer.setDataSource(dataSource);
         return writer;
 	}
 	
 	@Bean
-	public ItemWriter<ErSeachingMapThaimtb> searchingMapThaimtbWriter(DataSource dataSource) {
-		JdbcBatchItemWriter<ErSeachingMapThaimtb> writer = new JdbcBatchItemWriter<ErSeachingMapThaimtb>();
-        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<ErSeachingMapThaimtb>());
-        writer.setSql("INSERT INTO `er_seaching_map_thaimtb` (`SEARCHING_ID`, `THAIMTB_ID`, `SCORE_HIT`) VALUES (:searchingId, :thaimtbId, :scoreHit)");
+	public ItemWriter<ErSeachingMapContent> searchingMapContentWriter(DataSource dataSource) {
+		JdbcBatchItemWriter<ErSeachingMapContent> writer = new JdbcBatchItemWriter<ErSeachingMapContent>();
+        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<ErSeachingMapContent>());
+        writer.setSql("INSERT INTO `er_seaching_map_content` (`SEARCHING_ID`, `content_id`, `SCORE_HIT`) VALUES (:searchingId, :contentId, :scoreHit)");
         writer.setDataSource(dataSource);
         return writer;
 	}

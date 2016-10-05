@@ -9,18 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tagtrade.bean.BatchOutput;
-import com.tagtrade.bean.SearchThaimtbResult;
-import com.tagtrade.bean.thaimtb.SearchMapThaimtb;
+import com.tagtrade.bean.SearchContentResult;
+import com.tagtrade.bean.thaimtb.SearchMapContent;
 import com.tagtrade.constant.LuceneConstant;
 import com.tagtrade.dataacess.entity.bean.ESearching;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
-import com.tagtrade.service.content.ThaimtbContentService;
+import com.tagtrade.service.content.ContentService;
 import com.tagtrade.service.searching.SearchingService;
 
-public class ThaimtbProcessor {
-	
+public class ThaimtbProcessorTemp {
+	/*
 	@Autowired
-	private ThaimtbContentService thaimtbContentService;
+	private ContentService thaimtbContentService;
 	
 	@Autowired
 	private SearchingService searchingService;
@@ -28,25 +27,25 @@ public class ThaimtbProcessor {
 	@Autowired
 	private File thaimtbFile;
 	
-	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessor.class);
+	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessorTemp.class);
 	
 	public BatchOutput process(String url) {
 		BatchOutput output = new BatchOutput();
-		List<SearchMapThaimtb> maps = new ArrayList<>();
+		List<SearchMapContent> maps = new ArrayList<>();
 		
 		List<EThaimtbContent> insertRows = setID(ThaimtbUtil.getUnInsertRow(url, thaimtbContentService.getLastestContent(), thaimtbFile));
 		logger.debug("THAIMTB NUMBER INSERT ROW =" + insertRows.size());
 		
-		ThaimtbLucene lucene = new ThaimtbLucene(insertRows);
+		BaseLucene lucene = new BaseLucene(insertRows);
 		
 		List<ESearching> words = searchingService.getSearching(true);
 		
 		for (ESearching word : words) {
-			List<SearchThaimtbResult> searchResults = lucene.search(word.getDescription(), LuceneConstant.TITLE_CONTENT);
+			List<SearchContentResult> searchResults = lucene.search(word.getDescription(), LuceneConstant.TITLE_CONTENT);
 			logger.debug("THAIMTB SEARCH MATCH FOR WORD :" + word.getDescription() + " MATCH NUMBER =" + searchResults.size());
-			for (SearchThaimtbResult searchResult : searchResults) {
+			for (SearchContentResult searchResult : searchResults) {
 				logger.debug("THAIMTB SEARCH MATCH TITLE DETAIL =" +searchResult.geteThaimtbContent().getDescription());
-				SearchMapThaimtb map = new SearchMapThaimtb();
+				SearchMapContent map = new SearchMapContent();
 				map.seteSearching(word);
 				map.seteThaimtbContent(searchResult.geteThaimtbContent());
 				map.setScoreHit(searchResult.getScoreHit());
@@ -69,6 +68,6 @@ public class ThaimtbProcessor {
 		}
 		
 		return insertRows;
-	}
+	}*/
 
 }

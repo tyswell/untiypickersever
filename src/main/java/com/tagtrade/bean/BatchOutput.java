@@ -2,14 +2,14 @@ package com.tagtrade.bean;
 
 import java.util.List;
 
-import com.tagtrade.bean.thaimtb.SearchMapThaimtb;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
+import com.tagtrade.bean.thaimtb.SearchMapContent;
+import com.tagtrade.dataacess.entity.bean.EContent;
 
 public class BatchOutput {
 	
 	private boolean hasThaimtb;
-	private List<EThaimtbContent> eThaimtbContent;
-	private List<SearchMapThaimtb> searchMapThaimtbs;
+	private List<EContent> eContent;
+	private List<SearchMapContent> searchMapThaimtbs;
 	
 	public boolean isHasThaimtb() {
 		return hasThaimtb;
@@ -17,16 +17,17 @@ public class BatchOutput {
 	public void setHasThaimtb(boolean hasThaimtb) {
 		this.hasThaimtb = hasThaimtb;
 	}
-	public List<EThaimtbContent> geteThaimtbContent() {
-		return eThaimtbContent;
+
+	public List<EContent> geteContent() {
+		return eContent;
 	}
-	public void seteThaimtbContent(List<EThaimtbContent> eThaimtbContent) {
-		this.eThaimtbContent = eThaimtbContent;
+	public void seteContent(List<EContent> eContent) {
+		this.eContent = eContent;
 	}
-	public List<SearchMapThaimtb> getSearchMapThaimtbs() {
+	public List<SearchMapContent> getSearchMapThaimtbs() {
 		return searchMapThaimtbs;
 	}
-	public void setSearchMapThaimtbs(List<SearchMapThaimtb> searchMapThaimtbs) {
+	public void setSearchMapThaimtbs(List<SearchMapContent> searchMapThaimtbs) {
 		this.searchMapThaimtbs = searchMapThaimtbs;
 	}
 	

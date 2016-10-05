@@ -3,19 +3,21 @@ package com.tagtrade.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.tagtrade.service.content.ThaimtbContentService;
-import com.tagtrade.service.content.ThaimtbContentServiceImpl;
+import com.tagtrade.service.content.ContentService;
+import com.tagtrade.service.content.ContentServiceImpl;
 import com.tagtrade.service.mobile.MobileService;
 import com.tagtrade.service.mobile.MobileServiceImpl;
 import com.tagtrade.service.searching.SearchingService;
 import com.tagtrade.service.searching.SearchingServiceImpl;
+import com.tagtrade.service.url.FacebookGroupService;
+import com.tagtrade.service.url.FacebookGroupServiceImpl;
 
 @Configuration
 public class ServiceConfig {
 	
 	@Bean
-	public ThaimtbContentService thaimtbContentService() {
-		return new ThaimtbContentServiceImpl();
+	public ContentService thaimtbContentService() {
+		return new ContentServiceImpl();
 	}
 	
 	@Bean
@@ -26,6 +28,11 @@ public class ServiceConfig {
 	@Bean
 	public MobileService mobileService() {
 		return new MobileServiceImpl();
+	}
+	
+	@Bean
+	public FacebookGroupService facebookGroupService() {
+		return new FacebookGroupServiceImpl();
 	}
 
 }

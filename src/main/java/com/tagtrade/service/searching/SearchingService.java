@@ -6,7 +6,7 @@ import com.tagtrade.dataacess.entity.bean.ESearching;
 
 public interface SearchingService {
 	
-	public List<ESearching> getSearching(boolean isActive);
+	public List<ESearching> getSearching(int webTypeCode, boolean isActive);
 	
 	public int getNextId();
 

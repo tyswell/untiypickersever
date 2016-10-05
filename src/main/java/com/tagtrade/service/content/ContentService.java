@@ -1,11 +1,16 @@
 package com.tagtrade.service.content;
 
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
 
-public interface ThaimtbContentService {
+import com.tagtrade.dataacess.entity.bean.EContent;
+
+public interface ContentService {
 	
-	public EThaimtbContent getLastestContent();
+	public EContent getLastestContent(int urlCode);
 	
 	public int getNextId();
+	
+	public void setNextId(int id);
+	
+	public EContent getLastestFacebookContent(int facebookGroupCode);
 
 }

@@ -3,17 +3,25 @@ package com.tagtrade.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.tagtrade.dataacess.entity.dao.EContentDAO;
 import com.tagtrade.dataacess.entity.dao.ESearchingDAO;
-import com.tagtrade.dataacess.entity.dao.EThaimtbContentDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDAO;
-import com.tagtrade.dataacess.entity.dao.ErSeachingMapThaimtbDAO;
+import com.tagtrade.dataacess.entity.dao.ErSeachingMapContentDAO;
+import com.tagtrade.dataacess.entity.dao.ErSearchTypeMapWebTypeDAO;
+import com.tagtrade.dataacess.entity.dao.RFacebookGroupDAO;
+import com.tagtrade.dataacess.entity.dao.SContentDAO;
 
 @Configuration
 public class DataAccessConfig {
 	
 	@Bean
-	public ErSeachingMapThaimtbDAO erSeachingMapThaimtbDAO() {
-		return new ErSeachingMapThaimtbDAO();
+	public ErSearchTypeMapWebTypeDAO erSearchTypeMapWebTypeDAO() {
+		return new ErSearchTypeMapWebTypeDAO();
+	}
+	
+	@Bean
+	public ErSeachingMapContentDAO erSeachingMapContentDAO() {
+		return new ErSeachingMapContentDAO();
 	}
 	
 	@Bean
@@ -22,12 +30,22 @@ public class DataAccessConfig {
 	}
 
 	@Bean
-	public EThaimtbContentDAO eThaimtbContentDAO() {
-		return new EThaimtbContentDAO();
+	public EContentDAO eContentDAO() {
+		return new EContentDAO();
 	}
 	
 	@Bean
 	public EUserDAO eUserDAO() {
 		return new EUserDAO();
+	}
+	
+	@Bean
+	public RFacebookGroupDAO rFacebookGroupDAO() {
+		return new RFacebookGroupDAO();
+	}
+	
+	@Bean
+	public SContentDAO sContentDAO() {
+		return new SContentDAO();
 	}
 }

@@ -7,64 +7,68 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tagtrade.batch.processor.FacebookProcessor;
 import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.bean.FirebaseNotificaiton;
 import com.tagtrade.bean.MessageDataNotification;
 import com.tagtrade.bean.Notification;
-import com.tagtrade.bean.mobile.MobileBody;
-import com.tagtrade.bean.thaimtb.SearchMapThaimtb;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
-import com.tagtrade.dataacess.entity.bean.ErSeachingMapThaimtb;
+import com.tagtrade.bean.thaimtb.SearchMapContent;
+import com.tagtrade.dataacess.entity.bean.EContent;
+import com.tagtrade.dataacess.entity.bean.ErSeachingMapContent;
 import com.tagtrade.service.mobile.MobileService;
 import com.tagtrade.util.DateUtil;
 
 public class CustomWriter implements ItemWriter<BatchOutput>{
 
 	@Autowired
-	private ItemWriter<EThaimtbContent> thaiMtbContentWriter;
+	private ItemWriter<EContent> contentWriter;
 	
 	@Autowired
-	private ItemWriter<ErSeachingMapThaimtb> searchingMapThaimtbWriter;
+	private ItemWriter<ErSeachingMapContent> searchingMapContentWriter;
 	
 	@Autowired
 	private MobileService mobileService;
 	
+	private Logger logger = LoggerFactory.getLogger(FacebookProcessor.class);
+	
 	@Override
 	public void write(List<? extends BatchOutput> outputs) throws Exception {
-		BatchOutput output = outputs.get(0);
-		thaiMtbContentWriter.write( output.geteThaimtbContent() );
-		searchingMapThaimtbWriter.write( map(output.getSearchMapThaimtbs()) );
+		logger.debug("START WRITER");
+		
+		for (BatchOutput output : outputs) {
+			contentWriter.write( output.geteContent() );
+			searchingMapContentWriter.write( map(output.getSearchMapThaimtbs()) );
+		}
 //		pushNoti(output);
 	}
 	
-	private List<ErSeachingMapThaimtb> map(List<SearchMapThaimtb> values){
-		List<ErSeachingMapThaimtb> result = new ArrayList<>();
-		for (SearchMapThaimtb value : values) {
+	private List<ErSeachingMapContent> map(List<SearchMapContent> values){
+		List<ErSeachingMapContent> result = new ArrayList<>();
+		for (SearchMapContent value : values) {
 			result.add( map(value) );
 		}
 		return result;
 	}
 	
-	private ErSeachingMapThaimtb map(SearchMapThaimtb mtb) {
-		ErSeachingMapThaimtb result = new ErSeachingMapThaimtb();
+	private ErSeachingMapContent map(SearchMapContent mtb) {
+		ErSeachingMapContent result = new ErSeachingMapContent();
 		result.setCreateDate(DateUtil.getTimestampNow());
 		result.setScoreHit(mtb.getScoreHit());
 		result.setSearchingId(mtb.geteSearching().getSearchingId());
-		result.setThaimtbId(mtb.geteThaimtbContent().getThaimtbId());
+		result.setContentId(mtb.geteContent().getContentId());
 		
 		return result;
 	}

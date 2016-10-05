@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.tagtrade.batch.processor.thaimtb.ThaimtbProcessor;
+import com.tagtrade.batch.processor.thaimtb.ThaimtbProcessorTemp;
 
 /*
  * 0-5   every 60 min
@@ -36,9 +36,9 @@ public class Scheduler {
 	@Autowired
 	Job importUserJobx;
 	
-	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessor.class);
+	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessorTemp.class);
 
-//	@Scheduled(fixedDelayString="5000")
+//	@Scheduled(fixedDelayString="300000")
 //	public void scheduler1() {
 //		executeTask();
 //	}

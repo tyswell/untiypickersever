@@ -2,22 +2,41 @@ package com.tagtrade.service.content;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
-import com.tagtrade.dataacess.entity.dao.EThaimtbContentDAO;
+import com.tagtrade.dataacess.entity.bean.EContent;
+import com.tagtrade.dataacess.entity.bean.SContent;
+import com.tagtrade.dataacess.entity.dao.EContentDAO;
+import com.tagtrade.dataacess.entity.dao.SContentDAO;
 
-public class ThaimtbContentServiceImpl implements ThaimtbContentService {
+
+public class ContentServiceImpl implements ContentService {
 
 	@Autowired
-	private EThaimtbContentDAO eThaimtbContentDAO;
+	private EContentDAO eContentDAO;
+	
+	@Autowired
+	private SContentDAO sContentDAO;
 	
 	@Override
-	public EThaimtbContent getLastestContent() {
-		return eThaimtbContentDAO.selectLastestId();
+	public EContent getLastestContent(int urlCode) {
+		return eContentDAO.selectLastestId(urlCode);
 	}
 
 	@Override
 	public int getNextId() {
-		return eThaimtbContentDAO.nextSequence();
+		return sContentDAO.nextSequence();
+	}
+
+	@Override
+	public EContent getLastestFacebookContent(int facebookGroupCode) {
+		return eContentDAO.selectLastestFacebookCode(facebookGroupCode);
+	}
+
+	@Override
+	public void setNextId(int id) {
+		sContentDAO.deleteAll();
+		SContent sContent = new SContent();
+		sContent.setId(id);
+		sContentDAO.insert(sContent);
 	}
 
 }

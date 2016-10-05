@@ -1,12 +1,12 @@
 package com.tagtrade.bean.thaimtb;
 
+import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
 
-public class SearchMapThaimtb {
+public class SearchMapContent {
 
 	private ESearching eSearching;
-	private EThaimtbContent eThaimtbContent;
+	private EContent eContent;
 	private Float scoreHit;
 	
 	public ESearching geteSearching() {
@@ -15,11 +15,11 @@ public class SearchMapThaimtb {
 	public void seteSearching(ESearching eSearching) {
 		this.eSearching = eSearching;
 	}
-	public EThaimtbContent geteThaimtbContent() {
-		return eThaimtbContent;
+	public EContent geteContent() {
+		return eContent;
 	}
-	public void seteThaimtbContent(EThaimtbContent eThaimtbContent) {
-		this.eThaimtbContent = eThaimtbContent;
+	public void seteContent(EContent eContent) {
+		this.eContent = eContent;
 	}
 	public Float getScoreHit() {
 		return scoreHit;

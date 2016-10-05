@@ -20,10 +20,9 @@ import org.springframework.core.io.ResourceLoader;
 
 import com.tagtrade.App;
 import com.tagtrade.constant.UrlConstant;
-import com.tagtrade.dataacess.entity.bean.EThaimtbContent;
 
 public class ThaimtbUtil {
-	
+	/*
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThaimtbUtil.class);
 	
@@ -84,19 +83,12 @@ public class ThaimtbUtil {
 		try {
 			System.setProperty("http.proxyHost", "192.168.5.24");
 			System.setProperty("http.proxyPort", "3128");
-
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("phpbb3_9rs6_u", "64679");
-			map.put("phpbb3_9rs6_k", "93947380127967cc");
-			map.put("phpbb3_9rs6_sid", "bbe12f218e60d91981261bdb6dc9a99b");
 			
 			doc = Jsoup
 					.connect(url)
-					.cookies(map)
 					.userAgent(
 							"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
 					.timeout(20 * 1000).referrer("http://www.google.com").get();
-			checkLoginSession(doc);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,5 +139,5 @@ public class ThaimtbUtil {
 //	public static void main(String [] args) {
 //		System.out.println(extractId("./viewtopic.php?f=3&t=1475138&sid=081a3595f4948d4e5d607c7a869df96d"));
 //	}
-
+*/
 }

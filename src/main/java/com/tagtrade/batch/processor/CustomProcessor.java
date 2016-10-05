@@ -18,15 +18,23 @@ public class CustomProcessor implements ItemProcessor<RUrl, BatchOutput>{
 	
 	@Autowired
 	private ThaimtbProcessor thaimtbProcessor;
+	
+	@Autowired
+	private FacebookProcessor facebookProcessor;
 		
 	@Override
 	public BatchOutput process(RUrl url) throws Exception {
 		Integer webNameCode = url.getWebNameCode();
+		
 		logger.debug("START CUSTOM PROCESS NAME :" + webNameCode);
 		
 		if (webNameCode == WebNameConstant.THAIMTB_CODE) {			
-			return thaimtbProcessor.process(url.getDescription());
+			return thaimtbProcessor.process(url);
+		} else if (webNameCode == WebNameConstant.FACEBOOK_CODE) {
+			return facebookProcessor.process();
 		}
+//		return facebookProcessor.process();
+		
 		return null;
 	}
 	

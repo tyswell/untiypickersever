@@ -1,0 +1,3 @@
+CREATE TABLE S_CONTENT (
+	ID				INTEGER			NOT NULL primary key
+);
