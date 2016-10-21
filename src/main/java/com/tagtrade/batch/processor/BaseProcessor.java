@@ -48,6 +48,8 @@ public abstract class BaseProcessor {
 		
 		List<SearchMapContent> matchDatas = search(newInsertRows, listSearch);
 		
+		logger.debug("NUM INSERT ROWS = " + newInsertRows.size());
+		
 		output.seteContent(newInsertRows);
 		output.setSearchMapThaimtbs(matchDatas);
 		

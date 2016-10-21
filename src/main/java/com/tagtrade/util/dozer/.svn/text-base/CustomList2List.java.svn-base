@@ -1,0 +1,27 @@
+package qps.server.util.dozer;
+
+import java.util.List;
+
+import net.sf.dozer.util.mapping.converters.CustomConverter;
+
+public class CustomList2List implements CustomConverter{
+
+  @SuppressWarnings("rawtypes")
+  public Object convert(Object destination, Object source, Class destClass, Class sourceClass) {
+    if (source == null) {
+      return null;
+    }
+    else {
+      return (List) source;
+
+//      if ( true) {
+//        return (List)source;
+//      }
+//      else {
+//        throw new MappingException("Converter CustomList2List used incorrectly. Arguments passed in were:"
+//            + destination + " and " + source);
+//      }
+    }
+  }
+
+}

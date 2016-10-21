@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import com.tagtrade.dataacess.entity.dao.EContentDAO;
 import com.tagtrade.dataacess.entity.dao.ESearchingDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDAO;
+import com.tagtrade.dataacess.entity.dao.EUserDeviceDAO;
+import com.tagtrade.dataacess.entity.dao.EUserFacebookDAO;
 import com.tagtrade.dataacess.entity.dao.ErSeachingMapContentDAO;
 import com.tagtrade.dataacess.entity.dao.ErSearchTypeMapWebTypeDAO;
 import com.tagtrade.dataacess.entity.dao.RFacebookGroupDAO;
@@ -40,6 +42,16 @@ public class DataAccessConfig {
 	}
 	
 	@Bean
+	public EUserFacebookDAO eUserFacebookDAO() {
+		return new EUserFacebookDAO();
+	}
+	
+	@Bean
+	public EUserDeviceDAO eUserDeviceDAO() {
+		return new EUserDeviceDAO();
+	}
+	
+	@Bean
 	public RFacebookGroupDAO rFacebookGroupDAO() {
 		return new RFacebookGroupDAO();
 	}
@@ -48,4 +60,6 @@ public class DataAccessConfig {
 	public SContentDAO sContentDAO() {
 		return new SContentDAO();
 	}
+	
+
 }

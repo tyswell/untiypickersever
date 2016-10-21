@@ -1,48 +1,29 @@
 package com.tagtrade.dataacess.entity.bean;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.tagtrade.dataacess.DBObject;
 
 public class EUserFacebook extends DBObject {
 
-  private String facebookId;
-  private Integer userId;
-  private String token;
-  private Date expireDate;
+  private String username;
+  private String tokenFacebook;
   private Timestamp modifyDate;
 
-  public String getFacebookId() {
-    return facebookId;
+  public String getUsername() {
+    return username;
   }
 
-  public void setFacebookId(String facebookId) {
-    this.facebookId = facebookId;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
-  public Integer getUserId() {
-    return userId;
+  public String getTokenFacebook() {
+    return tokenFacebook;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
-
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  public Date getExpireDate() {
-    return expireDate;
-  }
-
-  public void setExpireDate(Date expireDate) {
-    this.expireDate = expireDate;
+  public void setTokenFacebook(String tokenFacebook) {
+    this.tokenFacebook = tokenFacebook;
   }
 
   public Timestamp getModifyDate() {
@@ -55,10 +36,8 @@ public class EUserFacebook extends DBObject {
 
   public String toString() {
     return ("EUserFacebook{" +
-        format("facebookId") + ": " + format(facebookId) + ", " +
-        format("userId") + ": " + format(userId) + ", " +
-        format("token") + ": " + format(token) + ", " +
-        format("expireDate") + ": " + format(expireDate) + ", " +
+        format("username") + ": " + format(username) + ", " +
+        format("tokenFacebook") + ": " + format(tokenFacebook) + ", " +
         format("modifyDate") + ": " + format(modifyDate) +
       "}");
   }

@@ -6,17 +6,35 @@ import com.tagtrade.dataacess.DBObject;
 
 public class EUser extends DBObject {
 
-  private Integer userId;
+  private String username;
+  private String displayName;
+  private String tokenUid;
   private Timestamp createDate;
   private Integer userLoginType;
   private String active;
 
-  public Integer getUserId() {
-    return userId;
+  public String getUsername() {
+    return username;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
+
+  public String getTokenUid() {
+    return tokenUid;
+  }
+
+  public void setTokenUid(String tokenUid) {
+    this.tokenUid = tokenUid;
   }
 
   public Timestamp getCreateDate() {
@@ -45,7 +63,9 @@ public class EUser extends DBObject {
 
   public String toString() {
     return ("EUser{" +
-        format("userId") + ": " + format(userId) + ", " +
+        format("username") + ": " + format(username) + ", " +
+        format("displayName") + ": " + format(displayName) + ", " +
+        format("tokenUid") + ": " + format(tokenUid) + ", " +
         format("createDate") + ": " + format(createDate) + ", " +
         format("userLoginType") + ": " + format(userLoginType) + ", " +
         format("active") + ": " + format(active) +

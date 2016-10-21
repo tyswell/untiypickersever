@@ -13,16 +13,14 @@ import com.tagtrade.dataacess.entity.bean.EUserFacebook;
 
 public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
 
-  private static final String FIELD_NAMES = "facebook_id, user_id, token, expire_date, modify_date";
+  private static final String FIELD_NAMES = "username, token_facebook, modify_date";
 
   protected static final RowMapper<EUserFacebook> ROW_MAPPER = new RowMapper<EUserFacebook>() {
     public EUserFacebook mapRow(ResultSet rs, int index) throws SQLException {
       EUserFacebook result = new EUserFacebook();
 
-      result.setFacebookId( rs.getString("facebook_id") );
-      result.setUserId( (Integer) rs.getObject("user_id") );
-      result.setToken( rs.getString("token") );
-      result.setExpireDate( rs.getDate("expire_date") );
+      result.setUsername( rs.getString("username") );
+      result.setTokenFacebook( rs.getString("token_facebook") );
       result.setModifyDate( rs.getTimestamp("modify_date") );
 
       return result;
@@ -31,33 +29,30 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
 
   public void insert(final EUserFacebook eUserFacebook) {
     getJdbcTemplate().update(
-        "insert into e_user_facebook (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?)",
+        "insert into e_user_facebook (" + FIELD_NAMES + ") values(?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
-            pstmt.setString(1, eUserFacebook.getFacebookId());
-            pstmt.setObject(2, eUserFacebook.getUserId());
-            pstmt.setString(3, eUserFacebook.getToken());
-            pstmt.setDate(4, eUserFacebook.getExpireDate());
-            pstmt.setTimestamp(5, eUserFacebook.getModifyDate());
+            pstmt.setString(1, eUserFacebook.getUsername());
+            pstmt.setString(2, eUserFacebook.getTokenFacebook());
+            pstmt.setTimestamp(3, eUserFacebook.getModifyDate());
           }
         });
   }
 
-  public boolean isKeyExist(final String facebook_id, final Integer user_id) {
+  public boolean isKeyExist(final String username) {
     return (0 != getJdbcTemplate().queryForObject(
-        "select count(*) from e_user_facebook where facebook_id = ? and user_id = ?",
+        "select count(*) from e_user_facebook where username = ?",
         new Object[] {
-            facebook_id, user_id
+            username
         }, Integer.class));
   }
 
-  public EUserFacebook selectByKey(final String facebook_id, final Integer user_id) {
+  public EUserFacebook selectByKey(final String username) {
     List<EUserFacebook> results = selectWithSuffix(
-        "where facebook_id = ? and user_id = ?",
+        "where username = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setString(1, facebook_id);
-            ps.setObject(2, user_id);
+            ps.setString(1, username);
           }
         });
 
@@ -95,32 +90,29 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
 
   public void updateByKey(final EUserFacebook eUserFacebook) {
     getJdbcTemplate().update(
-        "update e_user_facebook set token = ?, expire_date = ?, modify_date = ? where facebook_id = ? and user_id = ?",
+        "update e_user_facebook set token_facebook = ?, modify_date = ? where username = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setString(1, eUserFacebook.getToken());
-            ps.setDate(2, eUserFacebook.getExpireDate());
-            ps.setTimestamp(3, eUserFacebook.getModifyDate());
-            ps.setString(4, eUserFacebook.getFacebookId());
-            ps.setObject(5, eUserFacebook.getUserId());
+            ps.setString(1, eUserFacebook.getTokenFacebook());
+            ps.setTimestamp(2, eUserFacebook.getModifyDate());
+            ps.setString(3, eUserFacebook.getUsername());
           }
         });
   }
 
-  public void deleteByKey(final String facebook_id, final Integer user_id) {
+  public void deleteByKey(final String username) {
     getJdbcTemplate().update(
-        "delete from e_user_facebook where facebook_id = ? and user_id = ?",
+        "delete from e_user_facebook where username = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setString(1, facebook_id);
-            ps.setObject(2, user_id);
+            ps.setString(1, username);
           }
         });
   }
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-03,   16:11:19
+  * Code Generated on   2016-10-12,   14:09:35
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

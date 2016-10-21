@@ -22,7 +22,6 @@ import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.bean.SearchContentResult;
 import com.tagtrade.bean.thaimtb.SearchMapContent;
 import com.tagtrade.comparator.ContentComparator;
-import com.tagtrade.constant.LuceneConstant;
 import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.dataacess.entity.bean.RFacebookGroup;
@@ -230,9 +229,9 @@ public class FacebookProcessor {
 		
 		for (ESearching searchData : searchDatas) {
 			List<SearchContentResult> searchResults = searchTool.search(searchData.getDescription());
-			logger.debug("THAIMTB SEARCH MATCH FOR WORD :" + searchData.getDescription() + " MATCH NUMBER =" + searchResults.size());
+			logger.debug("FACEBOOK SEARCH MATCH FOR WORD :" + searchData.getDescription() + " MATCH NUMBER =" + searchResults.size());
 			for (SearchContentResult searchResult : searchResults) {
-				logger.debug("THAIMTB SEARCH MATCH TITLE DETAIL =" +searchResult.geteContent().getDescription());
+				logger.debug("FACEBOOK SEARCH MATCH TITLE DETAIL =" +searchResult.geteContent().getDescription());
 				SearchMapContent matchData = new SearchMapContent();
 				matchData.seteSearching(searchData);
 				matchData.seteContent(searchResult.geteContent());

@@ -1,24 +1,20 @@
 package com.tagtrade.config;
 
-import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.server.ResourceConfig;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-import com.tagtrade.service.jersey.HealthController;
-import com.tagtrade.service.jersey.account.AccountService;
-
+import com.tagtrade.jersey.HealthController;
+import com.tagtrade.jersey.user.UserFrontendService;
 
 
-@Profile("web")
-@Component
-@ApplicationPath("/")
+
+@Configuration
 public class JerseyConfig extends ResourceConfig {
 
 	public JerseyConfig() {
 		register(HealthController.class);
-		register(AccountService.class);
+		register(UserFrontendService.class);
 	}
 	
 }

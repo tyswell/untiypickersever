@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer
+END
+BooleanString2String.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/BooleanString2String.java
+END
+Boolean2Short.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/Boolean2Short.java
+END
+CustomList2List.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/CustomList2List.java
+END
+String2Date.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/String2Date.java
+END
+MappingUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/MappingUtil.java
+END
+String2BigDecimal.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/String2BigDecimal.java
+END
+String2Timestamp.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Sukoom/!svn/ver/483/trunk/QPS-Framework/java/src-server/qps/server/util/dozer/String2Timestamp.java
+END

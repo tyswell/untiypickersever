@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN"
+   "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd">
+<mappings>
+  <configuration>
+    <stop-on-errors>true</stop-on-errors>
+    <date-format>dd/MM/yyyy</date-format>
+    <wildcard>true</wildcard>
+
+    <custom-converters>
+      <converter type="qps.server.util.dozer.String2Date" >
+        <class-a>java.lang.String</class-a>
+        <class-b>java.util.Date</class-b>
+      </converter>
+
+      <converter type="qps.server.util.dozer.BooleanString2String" >
+        <class-a>java.lang.String</class-a>
+        <class-b>java.lang.Boolean</class-b>
+      </converter>
+
+      <converter type="qps.server.util.dozer.String2BigDecimal" >
+        <class-a>java.lang.String</class-a>
+        <class-b>java.math.BigDecimal</class-b>
+      </converter>
+
+      <converter type="qps.server.util.dozer.String2Timestamp" >
+        <class-a>java.lang.String</class-a>
+        <class-b>java.sql.Timestamp</class-b>
+      </converter>
+
+      <converter type="qps.server.util.dozer.Boolean2Short" >
+        <class-a>java.lang.Boolean</class-a>
+        <class-b>java.lang.Short</class-b>
+      </converter>
+
+    </custom-converters>
+  </configuration>
+
+
+</mappings>

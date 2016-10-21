@@ -14,6 +14,7 @@ source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_WEB_NAME.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_WEB_TYPE.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_USER_LOGIN_TYPE.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_ROLE.sql
+source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_OS_TYPE.sql
 
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\3-S\S_CONTENT.sql
 

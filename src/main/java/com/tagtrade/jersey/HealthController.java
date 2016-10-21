@@ -1,4 +1,4 @@
-package com.tagtrade.service.jersey;
+package com.tagtrade.jersey;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
