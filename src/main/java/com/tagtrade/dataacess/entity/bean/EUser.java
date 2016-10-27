@@ -1,5 +1,6 @@
 package com.tagtrade.dataacess.entity.bean;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.tagtrade.dataacess.DBObject;
@@ -9,6 +10,7 @@ public class EUser extends DBObject {
   private String username;
   private String displayName;
   private String tokenUid;
+  private Date tokenUidExpireDate;
   private Timestamp createDate;
   private Integer userLoginType;
   private String active;
@@ -35,6 +37,14 @@ public class EUser extends DBObject {
 
   public void setTokenUid(String tokenUid) {
     this.tokenUid = tokenUid;
+  }
+
+  public Date getTokenUidExpireDate() {
+    return tokenUidExpireDate;
+  }
+
+  public void setTokenUidExpireDate(Date tokenUidExpireDate) {
+    this.tokenUidExpireDate = tokenUidExpireDate;
   }
 
   public Timestamp getCreateDate() {
@@ -66,6 +76,7 @@ public class EUser extends DBObject {
         format("username") + ": " + format(username) + ", " +
         format("displayName") + ": " + format(displayName) + ", " +
         format("tokenUid") + ": " + format(tokenUid) + ", " +
+        format("tokenUidExpireDate") + ": " + format(tokenUidExpireDate) + ", " +
         format("createDate") + ": " + format(createDate) + ", " +
         format("userLoginType") + ": " + format(userLoginType) + ", " +
         format("active") + ": " + format(active) +

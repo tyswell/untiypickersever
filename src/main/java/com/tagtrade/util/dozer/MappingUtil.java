@@ -14,8 +14,7 @@ public class MappingUtil {
 
   static {
     List<String> mappingFiles = new ArrayList<String>();
-    mappingFiles.add( "qps/server/util/dozer/xml/CustomConverters.xml" );
-
+    
     List<CustomConverter> customConverters = new ArrayList<CustomConverter>();
     customConverters.add( new String2Date() );
     customConverters.add( new String2BigDecimal() );

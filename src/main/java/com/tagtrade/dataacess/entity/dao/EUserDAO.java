@@ -13,7 +13,7 @@ import com.tagtrade.dataacess.entity.bean.EUser;
 
 public class EUserDAO extends BaseDAO<EUser> {
 
-  private static final String FIELD_NAMES = "username, display_name, token_uid, create_date, user_login_type, active";
+  private static final String FIELD_NAMES = "username, display_name, token_uid, token_uid_expire_date, create_date, user_login_type, active";
 
   protected static final RowMapper<EUser> ROW_MAPPER = new RowMapper<EUser>() {
     public EUser mapRow(ResultSet rs, int index) throws SQLException {
@@ -22,6 +22,7 @@ public class EUserDAO extends BaseDAO<EUser> {
       result.setUsername( rs.getString("username") );
       result.setDisplayName( rs.getString("display_name") );
       result.setTokenUid( rs.getString("token_uid") );
+      result.setTokenUidExpireDate( rs.getDate("token_uid_expire_date") );
       result.setCreateDate( rs.getTimestamp("create_date") );
       result.setUserLoginType( (Integer) rs.getObject("user_login_type") );
       result.setActive( rs.getString("active") );
@@ -32,15 +33,16 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   public void insert(final EUser eUser) {
     getJdbcTemplate().update(
-        "insert into e_user (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?)",
+        "insert into e_user (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setString(1, eUser.getUsername());
             pstmt.setString(2, eUser.getDisplayName());
             pstmt.setString(3, eUser.getTokenUid());
-            pstmt.setTimestamp(4, eUser.getCreateDate());
-            pstmt.setObject(5, eUser.getUserLoginType());
-            pstmt.setString(6, eUser.getActive());
+            pstmt.setDate(4, eUser.getTokenUidExpireDate());
+            pstmt.setTimestamp(5, eUser.getCreateDate());
+            pstmt.setObject(6, eUser.getUserLoginType());
+            pstmt.setString(7, eUser.getActive());
           }
         });
   }
@@ -96,15 +98,16 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   public void updateByKey(final EUser eUser) {
     getJdbcTemplate().update(
-        "update e_user set display_name = ?, token_uid = ?, create_date = ?, user_login_type = ?, active = ? where username = ?",
+        "update e_user set display_name = ?, token_uid = ?, token_uid_expire_date = ?, create_date = ?, user_login_type = ?, active = ? where username = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, eUser.getDisplayName());
             ps.setString(2, eUser.getTokenUid());
-            ps.setTimestamp(3, eUser.getCreateDate());
-            ps.setObject(4, eUser.getUserLoginType());
-            ps.setString(5, eUser.getActive());
-            ps.setString(6, eUser.getUsername());
+            ps.setDate(3, eUser.getTokenUidExpireDate());
+            ps.setTimestamp(4, eUser.getCreateDate());
+            ps.setObject(5, eUser.getUserLoginType());
+            ps.setString(6, eUser.getActive());
+            ps.setString(7, eUser.getUsername());
           }
         });
   }
@@ -121,7 +124,7 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-12,   13:33:32
+  * Code Generated on   2016-10-27,   16:46:16
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

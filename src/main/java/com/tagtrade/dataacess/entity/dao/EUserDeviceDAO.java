@@ -13,7 +13,7 @@ import com.tagtrade.dataacess.entity.bean.EUserDevice;
 
 public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
-  private static final String FIELD_NAMES = "username, device_model, os_tyep_code, toekn_notification, modify_date, active";
+  private static final String FIELD_NAMES = "username, device_model, os_type_code, token_notification, modify_date, active";
 
   protected static final RowMapper<EUserDevice> ROW_MAPPER = new RowMapper<EUserDevice>() {
     public EUserDevice mapRow(ResultSet rs, int index) throws SQLException {
@@ -21,8 +21,8 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
       result.setUsername( rs.getString("username") );
       result.setDeviceModel( rs.getString("device_model") );
-      result.setOsTyepCode( (Integer) rs.getObject("os_tyep_code") );
-      result.setToeknNotification( rs.getString("toekn_notification") );
+      result.setOsTypeCode( (Integer) rs.getObject("os_type_code") );
+      result.setTokenNotification( rs.getString("token_notification") );
       result.setModifyDate( rs.getTimestamp("modify_date") );
       result.setActive( rs.getString("active") );
 
@@ -37,8 +37,8 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setString(1, eUserDevice.getUsername());
             pstmt.setString(2, eUserDevice.getDeviceModel());
-            pstmt.setObject(3, eUserDevice.getOsTyepCode());
-            pstmt.setString(4, eUserDevice.getToeknNotification());
+            pstmt.setObject(3, eUserDevice.getOsTypeCode());
+            pstmt.setString(4, eUserDevice.getTokenNotification());
             pstmt.setTimestamp(5, eUserDevice.getModifyDate());
             pstmt.setString(6, eUserDevice.getActive());
           }
@@ -97,11 +97,11 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
   public void updateByKey(final EUserDevice eUserDevice) {
     getJdbcTemplate().update(
-        "update e_user_device set os_tyep_code = ?, toekn_notification = ?, modify_date = ?, active = ? where device_model = ? and username = ?",
+        "update e_user_device set os_type_code = ?, token_notification = ?, modify_date = ?, active = ? where device_model = ? and username = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setObject(1, eUserDevice.getOsTyepCode());
-            ps.setString(2, eUserDevice.getToeknNotification());
+            ps.setObject(1, eUserDevice.getOsTypeCode());
+            ps.setString(2, eUserDevice.getTokenNotification());
             ps.setTimestamp(3, eUserDevice.getModifyDate());
             ps.setString(4, eUserDevice.getActive());
             ps.setString(5, eUserDevice.getUsername());
@@ -123,7 +123,7 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-12,   13:33:32
+  * Code Generated on   2016-10-27,   16:46:16
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

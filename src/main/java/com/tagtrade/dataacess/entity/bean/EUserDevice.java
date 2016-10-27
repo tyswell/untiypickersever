@@ -8,8 +8,8 @@ public class EUserDevice extends DBObject {
 
   private String username;
   private String deviceModel;
-  private Integer osTyepCode;
-  private String toeknNotification;
+  private Integer osTypeCode;
+  private String tokenNotification;
   private Timestamp modifyDate;
   private String active;
 
@@ -29,20 +29,20 @@ public class EUserDevice extends DBObject {
     this.deviceModel = deviceModel;
   }
 
-  public Integer getOsTyepCode() {
-    return osTyepCode;
+  public Integer getOsTypeCode() {
+    return osTypeCode;
   }
 
-  public void setOsTyepCode(Integer osTyepCode) {
-    this.osTyepCode = osTyepCode;
+  public void setOsTypeCode(Integer osTypeCode) {
+    this.osTypeCode = osTypeCode;
   }
 
-  public String getToeknNotification() {
-    return toeknNotification;
+  public String getTokenNotification() {
+    return tokenNotification;
   }
 
-  public void setToeknNotification(String toeknNotification) {
-    this.toeknNotification = toeknNotification;
+  public void setTokenNotification(String tokenNotification) {
+    this.tokenNotification = tokenNotification;
   }
 
   public Timestamp getModifyDate() {
@@ -65,8 +65,8 @@ public class EUserDevice extends DBObject {
     return ("EUserDevice{" +
         format("username") + ": " + format(username) + ", " +
         format("deviceModel") + ": " + format(deviceModel) + ", " +
-        format("osTyepCode") + ": " + format(osTyepCode) + ", " +
-        format("toeknNotification") + ": " + format(toeknNotification) + ", " +
+        format("osTyepCode") + ": " + format(osTypeCode) + ", " +
+        format("toeknNotification") + ": " + format(tokenNotification) + ", " +
         format("modifyDate") + ": " + format(modifyDate) + ", " +
         format("active") + ": " + format(active) +
       "}");

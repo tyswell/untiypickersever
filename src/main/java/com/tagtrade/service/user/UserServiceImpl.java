@@ -1,8 +1,10 @@
 package com.tagtrade.service.user;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.firebase.auth.FirebaseToken;
+import com.eaio.uuid.UUID;
 import com.tagtrade.bean.jersey.account.User;
 import com.tagtrade.constant.StatusConst;
 import com.tagtrade.constant.UserLoginType;
@@ -13,7 +15,8 @@ import com.tagtrade.dataacess.entity.dao.EUserDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDeviceDAO;
 import com.tagtrade.dataacess.entity.dao.EUserFacebookDAO;
 import com.tagtrade.mapper.UserMapper;
-import com.tagtrade.service.firebase.FirebaseService;
+import com.tagtrade.service.firebase.FacebookService;
+import com.tagtrade.util.DateUtil;
 
 public class UserServiceImpl implements UserService {
 
@@ -23,14 +26,16 @@ public class UserServiceImpl implements UserService {
 	private EUserFacebookDAO eUserFacebookDAO;
 	@Autowired
 	private EUserDeviceDAO eUserDeviceDAO;
-	
 	@Autowired
-	private FirebaseService firebaseService;
+	private FacebookService facebookService;
 	
 	@Override
-	public void registerUser(User user) {
+	public String registerUser(User user) {
 		//-------- INSERT EUSER
+		String tokenUID = genUIDToken();
 		EUser eUser = UserMapper.toEntity(user);
+		eUser.setTokenUid(tokenUID);
+		eUser.setTokenUidExpireDate((java.sql.Date) genTokenUidExpireDate());
 		eUser.setActive(StatusConst.ACTIVE);
 		eUserDAO.insert(eUser);
 		
@@ -44,46 +49,55 @@ public class UserServiceImpl implements UserService {
 		EUserDevice eUserDevice = UserMapper.toEntityDevice(user);
 		eUserDevice.setActive(StatusConst.ACTIVE);
 		eUserDeviceDAO.insert(eUserDevice);
+		
+		return tokenUID;
 	}
 	
 	@Override
-	public void login(User user) {
-		boolean isDeviceExist = eUserDeviceDAO.isKeyExist(user.getUsername(), user.getDevice().getDeviceModel());
-		//ADD OTHER DEVICE
-		if (!isDeviceExist) {
+	public String login(User user) {
+		String tokenUID = genUIDToken(); 
+		EUser eUser = UserMapper.toEntity(user);
+		eUser.setTokenUid(tokenUID);
+		eUser.setTokenUidExpireDate((java.sql.Date) genTokenUidExpireDate());
+		eUser.setActive(StatusConst.ACTIVE);
+		eUserDAO.updateByKey(eUser);
+		
+		EUserDevice eUserDeviceData = eUserDeviceDAO.selectByKey(user.getUsername(), user.getDevice().getDeviceModel());
+		
+		if (eUserDeviceData != null) {
+			//-------- UPDATE TOKEN DEVICE
+			if (!eUserDeviceData.getTokenNotification().equals(user.getDevice().getTokenNotification())) {
+				eUserDeviceData.setTokenNotification(user.getDevice().getTokenNotification());
+				eUserDeviceDAO.updateByKey(eUserDeviceData);
+			}
+		} else {
 			//-------- INSERT EUSER_DEVICE
 			EUserDevice eUserDevice = UserMapper.toEntityDevice(user);
 			eUserDevice.setActive(StatusConst.ACTIVE);
 			eUserDeviceDAO.insert(eUserDevice);
 		}
-		
+				
 		// UPDATE TOKEN
 		updateTokenFB(user.getUsername(), user.getFacebookUser().getTokenFacebook());
+		
+		return tokenUID;
 	}
 
 	@Override
 	public boolean isValidTokenUID(String username, String tokenUID) {
-		EUser eUserData =eUserDAO.selectByKey(username);
+		EUser eUserData = eUserDAO.selectByKey(username);
 		if (eUserData != null) {
 			if (eUserData.getTokenUid().equals(tokenUID)) {
-				return true;
+				if (!DateUtil.isDateOverDue(eUserData.getTokenUidExpireDate(), DateUtil.getNow())) {
+					return true;
+				} else {
+					eUserData.setTokenUid(tokenUID);
+					eUserData.setTokenUidExpireDate((java.sql.Date) genTokenUidExpireDate());
+					eUserDAO.updateByKey(eUserData);
+					return false;
+				}
 			} 
 		} 
-		
-		FirebaseToken firebaseData = firebaseService.getFirebaseToken(tokenUID);
-		if (firebaseData != null) {
-			String firebaseTokenUID = null/*firebaseData.getUid()*/;
-			if (firebaseTokenUID != null) {
-				if (eUserData != null) {
-					eUserData.setTokenUid(firebaseTokenUID);
-					eUserDAO.updateByKey(eUserData);
-				}
-				
-				if (firebaseTokenUID.equals(tokenUID)) {
-					return true;
-				} 
-			}
-		}
 		
 		return false;
 	}
@@ -110,7 +124,38 @@ public class UserServiceImpl implements UserService {
 			eUserFacebookDAO.insert(dataUserFacebook);
 		}
 	}
+
+	@Override
+	public EUser getUser(String username) {
+		if (username == null) {
+			return null;
+		}
+		
+		return eUserDAO.selectByKey(username);
+	}
+
+	@Override
+	public boolean isValidToken(User user) {
+		Integer userLoginType = user.getUserLoginType();
+		String username = user.getUsername();
+		if (UserLoginType.FACEBOOK_LOGIN == userLoginType) {
+			return facebookService.isValidToken(username, user.getFacebookUser().getTokenFacebook());
+		} else if (UserLoginType.GOOGLE_LOGIN == userLoginType) {
+			return false;
+		}
+		
+		return false;
+	}
 	
+	private String genUIDToken() {
+		UUID u = new UUID();
+		return u.toString();
+	}
+	
+	private java.sql.Date genTokenUidExpireDate() {
+		Date now = DateUtil.getNow();
+		return new java.sql.Date(DateUtil.addMonth(now, 3).getTime());
+	}
 	
 
 }

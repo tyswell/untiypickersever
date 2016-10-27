@@ -107,9 +107,9 @@
 		    <version>5.5.1</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.google.firebase</groupId>
-		  <artifactId>firebase-server-sdk</artifactId>
-		  <version>3.0.1</version>
+			<groupId>com.eaio.uuid</groupId>
+			<artifactId>uuid</artifactId>
+			<version>3.4</version>
 		</dependency>
 	</dependencies>
 
@@ -142,6 +142,10 @@
 		<repository>
 			<id>spring-releases</id>
 			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+		<repository>
+			<id>eaio.com</id>
+			<url>http://repo.eaio.com/maven2</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

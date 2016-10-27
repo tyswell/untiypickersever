@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.tagtrade.service.content.ContentService;
 import com.tagtrade.service.content.ContentServiceImpl;
-import com.tagtrade.service.firebase.FirebaseService;
-import com.tagtrade.service.firebase.FirebaseServiceImpl;
+import com.tagtrade.service.firebase.FacebookService;
+import com.tagtrade.service.firebase.FacebookServiceImpl;
 import com.tagtrade.service.mobile.MobileService;
 import com.tagtrade.service.mobile.MobileServiceImpl;
 import com.tagtrade.service.searching.SearchingService;
@@ -45,7 +45,7 @@ public class ServiceConfig {
 	}
 	
 	@Bean
-	public FirebaseService firebaseService() {
-		return new FirebaseServiceImpl();
+	public FacebookService firebaseService() {
+		return new FacebookServiceImpl();
 	}
 }

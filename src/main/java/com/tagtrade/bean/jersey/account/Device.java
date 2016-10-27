@@ -5,16 +5,16 @@ package com.tagtrade.bean.jersey.account;
  */
 public class Device {
 
-	private int osType;
+	private Integer osTypeCode;
 	private String tokenNotification;
 	private String deviceModel;
 
-	public int getOsType() {
-		return osType;
+	public Integer getOsTypeCode() {
+		return osTypeCode;
 	}
 
-	public void setOsType(int osType) {
-		this.osType = osType;
+	public void setOsTypeCode(Integer osTypeCode) {
+		this.osTypeCode = osTypeCode;
 	}
 
 	public String getTokenNotification() {
