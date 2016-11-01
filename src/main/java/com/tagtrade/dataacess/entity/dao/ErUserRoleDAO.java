@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import com.tagtrade.dataacess.BaseDAO;
 import com.tagtrade.dataacess.entity.bean.ErUserRole;
 
-
 public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
 
   private static final String FIELD_NAMES = "user_id, role_code";
@@ -28,7 +27,7 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
   };
 
   public void insert(final ErUserRole erUserRole) {
-	  getJdbcTemplate().update(
+    getJdbcTemplate().update(
         "insert into er_user_role (" + FIELD_NAMES + ") values(?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -89,7 +88,7 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
   }
 
   public void deleteByKey(final Integer user_id, final Integer role_code) {
-	  getJdbcTemplate().update(
+    getJdbcTemplate().update(
         "delete from er_user_role where user_id = ? and role_code = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
@@ -101,7 +100,7 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-08-09,   19:25:50
+  * Code Generated on   2016-11-01,   15:22:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

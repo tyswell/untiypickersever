@@ -1,7 +1,7 @@
 package com.tagtrade.mapper;
 
-import com.tagtrade.bean.jersey.account.Device;
 import com.tagtrade.bean.jersey.account.User;
+import com.tagtrade.bean.jersey.account.UserLogin;
 import com.tagtrade.dataacess.entity.bean.EUser;
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.bean.EUserFacebook;
@@ -21,9 +21,9 @@ public class UserMapper {
 		}
 	}
 	
-	public static EUserDevice toEntity(Device data) {
+	public static UserLogin toJersey(User data) {
 		if (data != null) {
-			EUserDevice result = new EUserDevice();
+			UserLogin result = new UserLogin();
 			
 			MappingUtil.map(data, result);
 
@@ -32,11 +32,14 @@ public class UserMapper {
 			return null;
 		}
 	}
+
+
 	
 	public static EUserDevice toEntityDevice(User data) {
 		if (data != null) {
-			EUserDevice result = toEntity(data.getDevice());
-			result.setUsername(data.getUsername());
+			EUserDevice result = new EUserDevice();
+			MappingUtil.map(data.getDevice(), result);
+			result.setUserId(data.getUserId());
 
 			return result;
 		} else {
@@ -47,7 +50,8 @@ public class UserMapper {
 	public static EUserFacebook toEntityFacebook(User data) {
 		if (data != null) {
 			EUserFacebook result = new EUserFacebook();
-			result.setUsername(data.getUsername());
+			result.setUserId(data.getUserId());
+			result.setFacebookId(data.getFacebookUser().getFacebookId());
 			result.setTokenFacebook(data.getFacebookUser().getTokenFacebook());
 
 			return result;

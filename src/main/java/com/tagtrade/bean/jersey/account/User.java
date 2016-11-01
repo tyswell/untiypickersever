@@ -5,7 +5,8 @@ package com.tagtrade.bean.jersey.account;
  */
 public class User {
 
-	private String username;
+	private Integer userId;
+	private String email;
 	private String displayName;
 
 	private String tokenUid;
@@ -14,12 +15,20 @@ public class User {
 	private Device device;
 	private FacebookUser facebookUser;
 
-	public String getUsername() {
-		return username;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getDisplayName() {

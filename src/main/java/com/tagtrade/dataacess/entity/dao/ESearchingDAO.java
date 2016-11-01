@@ -14,7 +14,7 @@ import com.tagtrade.dataacess.entity.bean.ESearching;
 
 public class ESearchingDAO extends BaseDAO<ESearching> {
 
-  private static final String FIELD_NAMES = "searching_id, description, username, search_type_code, create_date, active";
+  private static final String FIELD_NAMES = "searching_id, description, user_id, search_type_code, create_date, active";
 
   protected static final RowMapper<ESearching> ROW_MAPPER = new RowMapper<ESearching>() {
     public ESearching mapRow(ResultSet rs, int index) throws SQLException {
@@ -22,7 +22,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
       result.setSearchingId( (Integer) rs.getObject("searching_id") );
       result.setDescription( rs.getString("description") );
-      result.setUsername( rs.getString("username") );
+      result.setUserId( (Integer) rs.getObject("user_id") );
       result.setSearchTypeCode( (Integer) rs.getObject("search_type_code") );
       result.setCreateDate( rs.getTimestamp("create_date") );
       result.setActive( rs.getString("active") );
@@ -38,7 +38,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setObject(1, eSearching.getSearchingId());
             pstmt.setString(2, eSearching.getDescription());
-            pstmt.setString(3, eSearching.getUsername());
+            pstmt.setObject(3, eSearching.getUserId());
             pstmt.setObject(4, eSearching.getSearchTypeCode());
             pstmt.setTimestamp(5, eSearching.getCreateDate());
             pstmt.setString(6, eSearching.getActive());
@@ -97,11 +97,11 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   public void updateByKey(final ESearching eSearching) {
     getJdbcTemplate().update(
-        "update e_searching set description = ?, username = ?, search_type_code = ?, create_date = ?, active = ? where searching_id = ?",
+        "update e_searching set description = ?, user_id = ?, search_type_code = ?, create_date = ?, active = ? where searching_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, eSearching.getDescription());
-            ps.setString(2, eSearching.getUsername());
+            ps.setObject(2, eSearching.getUserId());
             ps.setObject(3, eSearching.getSearchTypeCode());
             ps.setTimestamp(4, eSearching.getCreateDate());
             ps.setString(5, eSearching.getActive());
@@ -122,7 +122,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-12,   13:33:32
+  * Code Generated on   2016-11-01,   15:22:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************
@@ -144,5 +144,6 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
       );
       return getJdbcTemplate().queryForObject( sql, Integer.class ) + 1;
   }
+
 
 }

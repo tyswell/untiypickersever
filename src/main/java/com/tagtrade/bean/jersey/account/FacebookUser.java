@@ -5,15 +5,15 @@ package com.tagtrade.bean.jersey.account;
  */
 public class FacebookUser {
 
-    private String facebookID;
+    private String facebookId;
     private String tokenFacebook;
 
-    public String getFacebookID() {
-        return facebookID;
+    public String getFacebookId() {
+        return facebookId;
     }
 
-    public void setFacebookID(String facebookID) {
-        this.facebookID = facebookID;
+    public void setFacebookID(String facebookId) {
+        this.facebookId = facebookId;
     }
 
     public String getTokenFacebook() {

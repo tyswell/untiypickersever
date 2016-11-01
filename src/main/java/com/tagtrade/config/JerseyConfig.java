@@ -13,6 +13,7 @@ import com.tagtrade.jersey.user.UserFrontendService;
 public class JerseyConfig extends ResourceConfig {
 
 	public JerseyConfig() {
+		packages("com.tagtrade");
 		register(HealthController.class);
 		register(UserFrontendService.class);
 	}

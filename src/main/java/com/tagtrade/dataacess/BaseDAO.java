@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 
 public abstract class BaseDAO<S extends DBObject> extends BaseDAOX {
   
-  public abstract void insert(S dbObject);
-
   public List<S> selectAll() {
     return selectWithSuffix("");
   }

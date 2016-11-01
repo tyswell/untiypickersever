@@ -22,7 +22,6 @@ public class FacebookServiceImpl implements FacebookService {
 			 if (fbUser == null) {
 				 return false;
 			 }
-			 System.out.println("fbUser.getEmail()"+fbUser.getEmail());
 			 
 			 if (fbUser.getEmail().equals(email)) {
 				 return true;

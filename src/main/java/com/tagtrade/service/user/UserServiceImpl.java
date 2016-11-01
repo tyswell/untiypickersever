@@ -30,14 +30,19 @@ public class UserServiceImpl implements UserService {
 	private FacebookService facebookService;
 	
 	@Override
-	public String registerUser(User user) {
+	public User registerUser(User user) {
 		//-------- INSERT EUSER
 		String tokenUID = genUIDToken();
+		int userId = getUserId();
 		EUser eUser = UserMapper.toEntity(user);
+		eUser.setUserId(userId);
 		eUser.setTokenUid(tokenUID);
 		eUser.setTokenUidExpireDate((java.sql.Date) genTokenUidExpireDate());
 		eUser.setActive(StatusConst.ACTIVE);
 		eUserDAO.insert(eUser);
+		
+		user.setUserId(userId);
+		user.setTokenUid(tokenUID);
 		
 		if (user.getUserLoginType() == UserLoginType.FACEBOOK_LOGIN) {
 			//-------- INSERT EUSER_FACEBOOK
@@ -50,19 +55,22 @@ public class UserServiceImpl implements UserService {
 		eUserDevice.setActive(StatusConst.ACTIVE);
 		eUserDeviceDAO.insert(eUserDevice);
 		
-		return tokenUID;
+		return user;
 	}
 	
 	@Override
-	public String login(User user) {
+	public User login(User user) {
 		String tokenUID = genUIDToken(); 
-		EUser eUser = UserMapper.toEntity(user);
+		EUser eUser = eUserDAO.selectByEmail(user.getEmail());
 		eUser.setTokenUid(tokenUID);
 		eUser.setTokenUidExpireDate((java.sql.Date) genTokenUidExpireDate());
 		eUser.setActive(StatusConst.ACTIVE);
 		eUserDAO.updateByKey(eUser);
 		
-		EUserDevice eUserDeviceData = eUserDeviceDAO.selectByKey(user.getUsername(), user.getDevice().getDeviceModel());
+		user.setUserId(eUser.getUserId());
+		user.setTokenUid(tokenUID);
+		
+		EUserDevice eUserDeviceData = eUserDeviceDAO.selectByKey(user.getUserId(), user.getDevice().getDeviceModel());
 		
 		if (eUserDeviceData != null) {
 			//-------- UPDATE TOKEN DEVICE
@@ -78,14 +86,14 @@ public class UserServiceImpl implements UserService {
 		}
 				
 		// UPDATE TOKEN
-		updateTokenFB(user.getUsername(), user.getFacebookUser().getTokenFacebook());
+		updateTokenFB(user.getUserId(), user.getFacebookUser().getTokenFacebook(), user.getFacebookUser().getFacebookId());
 		
-		return tokenUID;
+		return user;
 	}
 
 	@Override
-	public boolean isValidTokenUID(String username, String tokenUID) {
-		EUser eUserData = eUserDAO.selectByKey(username);
+	public boolean isValidTokenUID(int userId, String tokenUID) {
+		EUser eUserData = eUserDAO.selectByKey(userId);
 		if (eUserData != null) {
 			if (eUserData.getTokenUid().equals(tokenUID)) {
 				if (!DateUtil.isDateOverDue(eUserData.getTokenUidExpireDate(), DateUtil.getNow())) {
@@ -103,13 +111,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isUserExist(String username) {
-		return eUserDAO.isKeyExist(username);
+	public boolean isEmailExist(String email) {
+		return eUserDAO.isEmailExist(email);
 	}
 	
 	@Override
-	public void updateTokenFB(String username, String tokenFB) {
-		EUserFacebook eUserFacebook = eUserFacebookDAO.selectByKey(username);
+	public void updateTokenFB(int userId, String tokenFB, String facebookId) {
+		EUserFacebook eUserFacebook = eUserFacebookDAO.selectByKey(userId);
 		// UPDATE TOKEN
 		if (eUserFacebook != null) {
 			if (!eUserFacebook.getTokenFacebook().equals(tokenFB)){
@@ -119,27 +127,19 @@ public class UserServiceImpl implements UserService {
 		} else { // OLD LOGIN WITH GOOGLE, NOW LOGIN WITH FB
 			//-------- INSERT EUSER_FACEBOOK
 			EUserFacebook dataUserFacebook = new EUserFacebook();
-			dataUserFacebook.setUsername(username);
+			dataUserFacebook.setFacebookId(facebookId);
+			dataUserFacebook.setUserId(userId);
 			dataUserFacebook.setTokenFacebook(tokenFB);
 			eUserFacebookDAO.insert(dataUserFacebook);
 		}
 	}
 
 	@Override
-	public EUser getUser(String username) {
-		if (username == null) {
-			return null;
-		}
-		
-		return eUserDAO.selectByKey(username);
-	}
-
-	@Override
 	public boolean isValidToken(User user) {
 		Integer userLoginType = user.getUserLoginType();
-		String username = user.getUsername();
+		String email = user.getEmail();
 		if (UserLoginType.FACEBOOK_LOGIN == userLoginType) {
-			return facebookService.isValidToken(username, user.getFacebookUser().getTokenFacebook());
+			return facebookService.isValidToken(email, user.getFacebookUser().getTokenFacebook());
 		} else if (UserLoginType.GOOGLE_LOGIN == userLoginType) {
 			return false;
 		}
@@ -155,6 +155,11 @@ public class UserServiceImpl implements UserService {
 	private java.sql.Date genTokenUidExpireDate() {
 		Date now = DateUtil.getNow();
 		return new java.sql.Date(DateUtil.addMonth(now, 3).getTime());
+	}
+	
+	private Integer getUserId() {
+		int x = eUserDAO.selectMaxId();
+		return Integer.valueOf(x + 1);
 	}
 	
 

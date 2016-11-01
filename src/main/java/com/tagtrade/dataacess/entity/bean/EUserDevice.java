@@ -6,19 +6,19 @@ import com.tagtrade.dataacess.DBObject;
 
 public class EUserDevice extends DBObject {
 
-  private String username;
+  private Integer userId;
   private String deviceModel;
   private Integer osTypeCode;
   private String tokenNotification;
   private Timestamp modifyDate;
   private String active;
 
-  public String getUsername() {
-    return username;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 
   public String getDeviceModel() {
@@ -63,10 +63,10 @@ public class EUserDevice extends DBObject {
 
   public String toString() {
     return ("EUserDevice{" +
-        format("username") + ": " + format(username) + ", " +
+        format("userId") + ": " + format(userId) + ", " +
         format("deviceModel") + ": " + format(deviceModel) + ", " +
-        format("osTyepCode") + ": " + format(osTypeCode) + ", " +
-        format("toeknNotification") + ": " + format(tokenNotification) + ", " +
+        format("osTypeCode") + ": " + format(osTypeCode) + ", " +
+        format("tokenNotification") + ": " + format(tokenNotification) + ", " +
         format("modifyDate") + ": " + format(modifyDate) + ", " +
         format("active") + ": " + format(active) +
       "}");

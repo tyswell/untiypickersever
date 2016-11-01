@@ -13,13 +13,13 @@ import com.tagtrade.dataacess.entity.bean.EUserDevice;
 
 public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
-  private static final String FIELD_NAMES = "username, device_model, os_type_code, token_notification, modify_date, active";
+  private static final String FIELD_NAMES = "user_id, device_model, os_type_code, token_notification, modify_date, active";
 
   protected static final RowMapper<EUserDevice> ROW_MAPPER = new RowMapper<EUserDevice>() {
     public EUserDevice mapRow(ResultSet rs, int index) throws SQLException {
       EUserDevice result = new EUserDevice();
 
-      result.setUsername( rs.getString("username") );
+      result.setUserId( (Integer) rs.getObject("user_id") );
       result.setDeviceModel( rs.getString("device_model") );
       result.setOsTypeCode( (Integer) rs.getObject("os_type_code") );
       result.setTokenNotification( rs.getString("token_notification") );
@@ -35,7 +35,7 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
         "insert into e_user_device (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
-            pstmt.setString(1, eUserDevice.getUsername());
+            pstmt.setObject(1, eUserDevice.getUserId());
             pstmt.setString(2, eUserDevice.getDeviceModel());
             pstmt.setObject(3, eUserDevice.getOsTypeCode());
             pstmt.setString(4, eUserDevice.getTokenNotification());
@@ -45,20 +45,20 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
         });
   }
 
-  public boolean isKeyExist(final String username, final String device_model) {
+  public boolean isKeyExist(final Integer user_id, final String device_model) {
     return (0 != getJdbcTemplate().queryForObject(
-        "select count(*) from e_user_device where username = ? and device_model = ?",
+        "select count(*) from e_user_device where user_id = ? and device_model = ?",
         new Object[] {
-            username, device_model
+            user_id, device_model
         }, Integer.class));
   }
 
-  public EUserDevice selectByKey(final String username, final String device_model) {
+  public EUserDevice selectByKey(final Integer user_id, final String device_model) {
     List<EUserDevice> results = selectWithSuffix(
-        "where username = ? and device_model = ?",
+        "where user_id = ? and device_model = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setString(1, username);
+            ps.setObject(1, user_id);
             ps.setString(2, device_model);
           }
         });
@@ -97,25 +97,25 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
   public void updateByKey(final EUserDevice eUserDevice) {
     getJdbcTemplate().update(
-        "update e_user_device set os_type_code = ?, token_notification = ?, modify_date = ?, active = ? where device_model = ? and username = ?",
+        "update e_user_device set os_type_code = ?, token_notification = ?, modify_date = ?, active = ? where device_model = ? and user_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setObject(1, eUserDevice.getOsTypeCode());
             ps.setString(2, eUserDevice.getTokenNotification());
             ps.setTimestamp(3, eUserDevice.getModifyDate());
             ps.setString(4, eUserDevice.getActive());
-            ps.setString(5, eUserDevice.getUsername());
+            ps.setObject(5, eUserDevice.getUserId());
             ps.setString(6, eUserDevice.getDeviceModel());
           }
         });
   }
 
-  public void deleteByKey(final String username, final String device_model) {
+  public void deleteByKey(final Integer user_id, final String device_model) {
     getJdbcTemplate().update(
-        "delete from e_user_device where username = ? and device_model = ?",
+        "delete from e_user_device where user_id = ? and device_model = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setString(1, username);
+            ps.setObject(1, user_id);
             ps.setString(2, device_model);
           }
         });
@@ -123,7 +123,7 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-27,   16:46:16
+  * Code Generated on   2016-11-01,   15:22:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

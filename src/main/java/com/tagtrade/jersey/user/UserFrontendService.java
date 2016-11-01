@@ -7,15 +7,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.tagtrade.bean.jersey.account.User;
-import com.tagtrade.constant.MessageErrorConstant;
-import com.tagtrade.exception.EUException;
-import com.tagtrade.exception.ErrorResponse;
+import com.tagtrade.bean.jersey.account.UserLogin;
+import com.tagtrade.constant.UserLoginType;
+import com.tagtrade.exception.EUError;
+import com.tagtrade.mapper.UserMapper;
 import com.tagtrade.service.user.UserService;
 
 @Component
@@ -27,46 +25,77 @@ public class UserFrontendService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response account(User user) {
+	public Response account(User user) throws EUError {
 		validate(user);
 		
 		if (userService.isValidToken(user)) {
-			String tokenUid = null;
-			if (userService.isUserExist(user.getUsername())) {
-				tokenUid = userService.login(user);
+			User respondUser = null;
+			if (userService.isEmailExist(user.getEmail())) {
+				respondUser = userService.login(user);
 			} else {
-				tokenUid = userService.registerUser(user);
+				respondUser = userService.registerUser(user);
 			}
 			
-			return Response.status(201).entity(tokenUid).build();
+			UserLogin result = UserMapper.toJersey(respondUser);
+			
+			return Response.status(201).entity(result).build();
 		} else {
-			return Response.status(201).entity("FAILLLL").build();
+			throw new EUError("VALIDATE TOKEN IS WRONG");
 		}		
 	}
 
-	private boolean validate(User user) {
+	private void validate(User user) throws EUError {
 		if (user == null) {
-			throw new EUException(
-					MessageErrorConstant.CRITERIA_WRONG_CODE, 
-					"OBJECT USER IS NULL");
+			throw new EUError("User IS NULL");
 		}
 		
-		if (user.getUsername() == null) {
-			throw new EUException(
-					MessageErrorConstant.CRITERIA_WRONG_CODE, 
-					"Username IS NULL");
+		if (user.getEmail() == null) {
+			throw new EUError("Email IS NULL");
 		}
-		return false;
+		
+		if (user.getDisplayName() == null) {
+			throw new EUError("DisplayName IS NULL");
+		}
+		
+		if (user.getUserLoginType() == null) {
+			throw new EUError("UserLoginType IS NULL");
+		}
+		
+		if (user.getUserLoginType() == UserLoginType.FACEBOOK_LOGIN) {
+			if (user.getFacebookUser() == null) {
+				throw new EUError("FacebookUser IS NULL");
+			}
+			
+			if (user.getFacebookUser().getFacebookId() == null) {
+				throw new EUError("FacebookId IS NULL");
+			}
+			
+			if (user.getFacebookUser().getTokenFacebook() == null) {
+				throw new EUError("TokenFacebook IS NULL");
+			}
+		} else if (user.getUserLoginType() == UserLoginType.GOOGLE_LOGIN) {
+			
+		} else {
+			throw new EUError("LOGINTYPECODE IS WRONG value =" + user.getUserLoginType());
+		}
+		
+		if (user.getDevice() == null) {
+			throw new EUError("Device IS NULL");
+		}
+		
+		if (user.getDevice().getOsTypeCode() == null) {
+			throw new EUError("OsTypeCode IS NULL");
+		}
+		
+		if (user.getDevice().getTokenNotification() == null) {
+			throw new EUError("TokenNotification IS NULL");
+		}
+		
+		if (user.getDevice().getDeviceModel() == null) {
+			throw new EUError("DeviceModel IS NULL");
+		}
+		
 	}
-	
-	@ExceptionHandler(EUException.class)
-	public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
-		ErrorResponse error = new ErrorResponse();
-		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
-		error.setMessage(ex.getMessage());
-		return new ResponseEntity<ErrorResponse>(error, HttpStatus.OK);
-	}
-	
 	
 	
 }

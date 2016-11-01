@@ -7,7 +7,8 @@ import com.tagtrade.dataacess.DBObject;
 
 public class EUser extends DBObject {
 
-  private String username;
+  private Integer userId;
+  private String email;
   private String displayName;
   private String tokenUid;
   private Date tokenUidExpireDate;
@@ -15,12 +16,20 @@ public class EUser extends DBObject {
   private Integer userLoginType;
   private String active;
 
-  public String getUsername() {
-    return username;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getDisplayName() {
@@ -73,7 +82,8 @@ public class EUser extends DBObject {
 
   public String toString() {
     return ("EUser{" +
-        format("username") + ": " + format(username) + ", " +
+        format("userId") + ": " + format(userId) + ", " +
+        format("email") + ": " + format(email) + ", " +
         format("displayName") + ": " + format(displayName) + ", " +
         format("tokenUid") + ": " + format(tokenUid) + ", " +
         format("tokenUidExpireDate") + ": " + format(tokenUidExpireDate) + ", " +

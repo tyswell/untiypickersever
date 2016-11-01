@@ -8,7 +8,7 @@ public class ESearching extends DBObject {
 
   private Integer searchingId;
   private String description;
-  private String username;
+  private Integer userId;
   private Integer searchTypeCode;
   private Timestamp createDate;
   private String active;
@@ -29,12 +29,12 @@ public class ESearching extends DBObject {
     this.description = description;
   }
 
-  public String getUsername() {
-    return username;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 
   public Integer getSearchTypeCode() {
@@ -65,7 +65,7 @@ public class ESearching extends DBObject {
     return ("ESearching{" +
         format("searchingId") + ": " + format(searchingId) + ", " +
         format("description") + ": " + format(description) + ", " +
-        format("username") + ": " + format(username) + ", " +
+        format("userId") + ": " + format(userId) + ", " +
         format("searchTypeCode") + ": " + format(searchTypeCode) + ", " +
         format("createDate") + ": " + format(createDate) + ", " +
         format("active") + ": " + format(active) +
