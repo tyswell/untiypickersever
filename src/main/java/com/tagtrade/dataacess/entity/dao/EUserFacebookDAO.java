@@ -19,7 +19,7 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
     public EUserFacebook mapRow(ResultSet rs, int index) throws SQLException {
       EUserFacebook result = new EUserFacebook();
 
-      result.setUserId( (Integer) rs.getObject("user_id") );
+      result.setUserId( rs.getString("user_id") );
       result.setFacebookId( rs.getString("facebook_id") );
       result.setTokenFacebook( rs.getString("token_facebook") );
       result.setModifyDate( rs.getTimestamp("modify_date") );
@@ -33,7 +33,7 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
         "insert into e_user_facebook (" + FIELD_NAMES + ") values(?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
-            pstmt.setObject(1, eUserFacebook.getUserId());
+            pstmt.setString(1, eUserFacebook.getUserId());
             pstmt.setString(2, eUserFacebook.getFacebookId());
             pstmt.setString(3, eUserFacebook.getTokenFacebook());
             pstmt.setTimestamp(4, eUserFacebook.getModifyDate());
@@ -41,7 +41,7 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
         });
   }
 
-  public boolean isKeyExist(final Integer user_id) {
+  public boolean isKeyExist(final String user_id) {
     return (0 != getJdbcTemplate().queryForObject(
         "select count(*) from e_user_facebook where user_id = ?",
         new Object[] {
@@ -49,12 +49,12 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
         }, Integer.class));
   }
 
-  public EUserFacebook selectByKey(final Integer user_id) {
+  public EUserFacebook selectByKey(final String user_id) {
     List<EUserFacebook> results = selectWithSuffix(
         "where user_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setObject(1, user_id);
+            ps.setString(1, user_id);
           }
         });
 
@@ -98,24 +98,24 @@ public class EUserFacebookDAO extends BaseDAO<EUserFacebook> {
             ps.setString(1, eUserFacebook.getFacebookId());
             ps.setString(2, eUserFacebook.getTokenFacebook());
             ps.setTimestamp(3, eUserFacebook.getModifyDate());
-            ps.setObject(4, eUserFacebook.getUserId());
+            ps.setString(4, eUserFacebook.getUserId());
           }
         });
   }
 
-  public void deleteByKey(final Integer user_id) {
+  public void deleteByKey(final String user_id) {
     getJdbcTemplate().update(
         "delete from e_user_facebook where user_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setObject(1, user_id);
+            ps.setString(1, user_id);
           }
         });
   }
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-11-01,   15:22:12
+  * Code Generated on   2016-11-03,   14:40:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

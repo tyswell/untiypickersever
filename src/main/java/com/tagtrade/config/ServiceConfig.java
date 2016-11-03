@@ -5,8 +5,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.tagtrade.service.content.ContentService;
 import com.tagtrade.service.content.ContentServiceImpl;
-import com.tagtrade.service.firebase.FacebookService;
-import com.tagtrade.service.firebase.FacebookServiceImpl;
+import com.tagtrade.service.device.DeviceService;
+import com.tagtrade.service.device.DeviceServiceImpl;
+import com.tagtrade.service.fackbook.FacebookService;
+import com.tagtrade.service.fackbook.FacebookServiceImpl;
+import com.tagtrade.service.firebase.FirebaseService;
+import com.tagtrade.service.firebase.FirebaseServiceImpl;
 import com.tagtrade.service.mobile.MobileService;
 import com.tagtrade.service.mobile.MobileServiceImpl;
 import com.tagtrade.service.searching.SearchingService;
@@ -45,7 +49,17 @@ public class ServiceConfig {
 	}
 	
 	@Bean
-	public FacebookService firebaseService() {
+	public FacebookService facebookService() {
 		return new FacebookServiceImpl();
+	}
+	
+	@Bean
+	public FirebaseService firebaseService() {
+		return new FirebaseServiceImpl();
+	}
+	
+	@Bean
+	public DeviceService deviceService() {
+		return new DeviceServiceImpl();
 	}
 }

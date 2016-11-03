@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.tagtrade.constant.StatusConst;
 import com.tagtrade.dataacess.BaseDAO;
 import com.tagtrade.dataacess.CriteriaBuilder;
 import com.tagtrade.dataacess.entity.bean.ESearching;
@@ -22,7 +23,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
       result.setSearchingId( (Integer) rs.getObject("searching_id") );
       result.setDescription( rs.getString("description") );
-      result.setUserId( (Integer) rs.getObject("user_id") );
+      result.setUserId( rs.getString("user_id") );
       result.setSearchTypeCode( (Integer) rs.getObject("search_type_code") );
       result.setCreateDate( rs.getTimestamp("create_date") );
       result.setActive( rs.getString("active") );
@@ -38,7 +39,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setObject(1, eSearching.getSearchingId());
             pstmt.setString(2, eSearching.getDescription());
-            pstmt.setObject(3, eSearching.getUserId());
+            pstmt.setString(3, eSearching.getUserId());
             pstmt.setObject(4, eSearching.getSearchTypeCode());
             pstmt.setTimestamp(5, eSearching.getCreateDate());
             pstmt.setString(6, eSearching.getActive());
@@ -101,7 +102,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, eSearching.getDescription());
-            ps.setObject(2, eSearching.getUserId());
+            ps.setString(2, eSearching.getUserId());
             ps.setObject(3, eSearching.getSearchTypeCode());
             ps.setTimestamp(4, eSearching.getCreateDate());
             ps.setString(5, eSearching.getActive());
@@ -122,7 +123,7 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-11-01,   15:22:12
+  * Code Generated on   2016-11-03,   14:40:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************
@@ -144,6 +145,18 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
       );
       return getJdbcTemplate().queryForObject( sql, Integer.class ) + 1;
   }
-
+  
+  public boolean isWordExist(final String userId, final String description) {
+	    return (0 != getJdbcTemplate().queryForObject(
+	        "select count(*) from e_searching where user_id = ? and description = ? and active = ? ",
+	        new Object[] { userId, description, StatusConst.ACTIVE }, Integer.class));
+  }
+  
+  public List<ESearching> getSearchingByUser(String userId, String active) {
+	  CriteriaBuilder cb = new CriteriaBuilder();
+	  cb.andIn("user_id", userId);
+	  cb.and("active", active);
+	  return selectWithSuffix(cb);
+  }
 
 }

@@ -107,9 +107,9 @@
 		    <version>5.5.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.eaio.uuid</groupId>
-			<artifactId>uuid</artifactId>
-			<version>3.4</version>
+		    <groupId>com.google.firebase</groupId>
+			<artifactId>firebase-server-sdk</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 

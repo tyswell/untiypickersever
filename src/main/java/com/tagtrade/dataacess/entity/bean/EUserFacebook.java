@@ -6,16 +6,16 @@ import com.tagtrade.dataacess.DBObject;
 
 public class EUserFacebook extends DBObject {
 
-  private Integer userId;
+  private String userId;
   private String facebookId;
   private String tokenFacebook;
   private Timestamp modifyDate;
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

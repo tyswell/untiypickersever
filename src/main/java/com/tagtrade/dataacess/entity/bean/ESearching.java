@@ -8,7 +8,7 @@ public class ESearching extends DBObject {
 
   private Integer searchingId;
   private String description;
-  private Integer userId;
+  private String userId;
   private Integer searchTypeCode;
   private Timestamp createDate;
   private String active;
@@ -29,11 +29,11 @@ public class ESearching extends DBObject {
     this.description = description;
   }
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

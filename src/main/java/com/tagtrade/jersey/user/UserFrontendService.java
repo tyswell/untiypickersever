@@ -9,89 +9,72 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tagtrade.bean.jersey.account.User;
-import com.tagtrade.bean.jersey.account.UserLogin;
+import com.tagtrade.bean.jersey.account.LoginReceive;
+import com.tagtrade.bean.jersey.account.LoginResponse;
+import com.tagtrade.bean.user.FirebaseUser;
 import com.tagtrade.constant.UserLoginType;
 import com.tagtrade.exception.EUError;
-import com.tagtrade.mapper.UserMapper;
+import com.tagtrade.service.searching.SearchingService;
 import com.tagtrade.service.user.UserService;
 
 @Component
-@Path("/userx")
+@Path("/userservice")
 public class UserFrontendService {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SearchingService searchingService;
 
 	@POST
+	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response account(User user) throws EUError {
-		validate(user);
+	public Response login(LoginReceive loginReceive) throws EUError {
+		validate(loginReceive);
 		
-		if (userService.isValidToken(user)) {
-			User respondUser = null;
-			if (userService.isEmailExist(user.getEmail())) {
-				respondUser = userService.login(user);
+		FirebaseUser user = userService.getFirebaseUser(loginReceive.getTokenId());
+		if (user != null) {
+			LoginResponse result = new LoginResponse();
+			
+			if (userService.isUserIdExist(user.getUserId())) {
+				if (userService.isUserValid(user.getUserId())) {
+					userService.login(user, loginReceive.getDevice());
+					result.setSearching(searchingService.getDataSearching(user.getUserId(), loginReceive.getSearchingIds()));
+				} else {
+					throw new EUError("USER IS INVALID");
+				}				
 			} else {
-				respondUser = userService.registerUser(user);
+				userService.registerUser(user, loginReceive.getDevice());
 			}
-			
-			UserLogin result = UserMapper.toJersey(respondUser);
-			
+						
 			return Response.status(201).entity(result).build();
 		} else {
-			throw new EUError("VALIDATE TOKEN IS WRONG");
+			throw new EUError("TOKEN IS WRONG");
 		}		
 	}
 
-	private void validate(User user) throws EUError {
-		if (user == null) {
-			throw new EUError("User IS NULL");
+	private void validate(LoginReceive loginReceive) throws EUError {
+		if (loginReceive == null) {
+			throw new EUError("loginReceive IS NULL");
 		}
 		
-		if (user.getEmail() == null) {
-			throw new EUError("Email IS NULL");
+		if (loginReceive.getTokenId() == null) {
+			throw new EUError("TokenId IS NULL");
 		}
-		
-		if (user.getDisplayName() == null) {
-			throw new EUError("DisplayName IS NULL");
-		}
-		
-		if (user.getUserLoginType() == null) {
-			throw new EUError("UserLoginType IS NULL");
-		}
-		
-		if (user.getUserLoginType() == UserLoginType.FACEBOOK_LOGIN) {
-			if (user.getFacebookUser() == null) {
-				throw new EUError("FacebookUser IS NULL");
-			}
-			
-			if (user.getFacebookUser().getFacebookId() == null) {
-				throw new EUError("FacebookId IS NULL");
-			}
-			
-			if (user.getFacebookUser().getTokenFacebook() == null) {
-				throw new EUError("TokenFacebook IS NULL");
-			}
-		} else if (user.getUserLoginType() == UserLoginType.GOOGLE_LOGIN) {
-			
-		} else {
-			throw new EUError("LOGINTYPECODE IS WRONG value =" + user.getUserLoginType());
-		}
-		
-		if (user.getDevice() == null) {
+				
+		if (loginReceive.getDevice() == null) {
 			throw new EUError("Device IS NULL");
 		}
 		
-		if (user.getDevice().getOsTypeCode() == null) {
+		if (loginReceive.getDevice().getOsTypeCode() == null) {
 			throw new EUError("OsTypeCode IS NULL");
 		}
 		
-		if (user.getDevice().getTokenNotification() == null) {
+		if (loginReceive.getDevice().getTokenNotification() == null) {
 			throw new EUError("TokenNotification IS NULL");
 		}
 		
-		if (user.getDevice().getDeviceModel() == null) {
+		if (loginReceive.getDevice().getDeviceModel() == null) {
 			throw new EUError("DeviceModel IS NULL");
 		}
 		

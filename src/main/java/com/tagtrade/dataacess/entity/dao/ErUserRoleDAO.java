@@ -19,7 +19,7 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
     public ErUserRole mapRow(ResultSet rs, int index) throws SQLException {
       ErUserRole result = new ErUserRole();
 
-      result.setUserId( (Integer) rs.getObject("user_id") );
+      result.setUserId( rs.getString("user_id") );
       result.setRoleCode( (Integer) rs.getObject("role_code") );
 
       return result;
@@ -31,13 +31,13 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
         "insert into er_user_role (" + FIELD_NAMES + ") values(?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
-            pstmt.setObject(1, erUserRole.getUserId());
+            pstmt.setString(1, erUserRole.getUserId());
             pstmt.setObject(2, erUserRole.getRoleCode());
           }
         });
   }
 
-  public boolean isKeyExist(final Integer user_id, final Integer role_code) {
+  public boolean isKeyExist(final String user_id, final Integer role_code) {
     return (0 != getJdbcTemplate().queryForObject(
         "select count(*) from er_user_role where user_id = ? and role_code = ?",
         new Object[] {
@@ -45,12 +45,12 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
         }, Integer.class));
   }
 
-  public ErUserRole selectByKey(final Integer user_id, final Integer role_code) {
+  public ErUserRole selectByKey(final String user_id, final Integer role_code) {
     List<ErUserRole> results = selectWithSuffix(
         "where user_id = ? and role_code = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setObject(1, user_id);
+            ps.setString(1, user_id);
             ps.setObject(2, role_code);
           }
         });
@@ -87,12 +87,12 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
         ROW_MAPPER);
   }
 
-  public void deleteByKey(final Integer user_id, final Integer role_code) {
+  public void deleteByKey(final String user_id, final Integer role_code) {
     getJdbcTemplate().update(
         "delete from er_user_role where user_id = ? and role_code = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
-            ps.setObject(1, user_id);
+            ps.setString(1, user_id);
             ps.setObject(2, role_code);
           }
         });
@@ -100,7 +100,7 @@ public class ErUserRoleDAO extends BaseDAO<ErUserRole> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-11-01,   15:22:12
+  * Code Generated on   2016-11-03,   14:40:12
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

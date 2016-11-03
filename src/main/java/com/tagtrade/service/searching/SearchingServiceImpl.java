@@ -5,10 +5,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tagtrade.bean.jersey.search.Searching;
+import com.tagtrade.bean.user.FirebaseUser;
+import com.tagtrade.constant.StatusConst;
 import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.dataacess.entity.bean.ErSearchTypeMapWebType;
 import com.tagtrade.dataacess.entity.dao.ESearchingDAO;
 import com.tagtrade.dataacess.entity.dao.ErSearchTypeMapWebTypeDAO;
+import com.tagtrade.mapper.SearchingMapper;
+import com.tagtrade.util.DateUtil;
 import com.tagtrade.util.FlagConstant;
 
 public class SearchingServiceImpl implements SearchingService {
@@ -35,4 +40,45 @@ public class SearchingServiceImpl implements SearchingService {
 		return eSearchingDAO.nextSequence();
 	}
 
+	@Override
+	public void addSearching(FirebaseUser user, Searching search) {
+		ESearching eSearching = SearchingMapper.mapToDAO(user, search);
+		eSearching.setSearchingId(getNextId());
+		eSearching.setCreateDate(DateUtil.getTimestampNow());
+		eSearching.setActive(StatusConst.ACTIVE);
+		
+		eSearchingDAO.insert(eSearching);
+	}
+
+	@Override
+	public boolean isWordExist(String userId, String description) {
+		return eSearchingDAO.isWordExist(userId, description);
+	}
+
+	@Override
+	public List<Searching> getDataSearching(String userId,
+			List<Integer> searchingIds) {
+		List<Searching> results = new ArrayList<>();
+		
+		List<ESearching> eSearchings = eSearchingDAO.getSearchingByUser(userId, StatusConst.ACTIVE);
+		
+		for (ESearching eSearching : eSearchings) {
+			Integer dataSearchingId = eSearching.getSearchingId();
+			boolean isFound = false;
+			
+			if (searchingIds != null) {
+				for (Integer searchingId : searchingIds) {
+					if (dataSearchingId == searchingId) {
+						isFound = true;
+					}
+				}
+			}
+
+			if (!isFound) {
+				results.add(SearchingMapper.mapToService(eSearching));
+			}
+		}
+		return results;
+	}
+	
 }

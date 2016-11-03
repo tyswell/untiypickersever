@@ -6,18 +6,18 @@ import com.tagtrade.dataacess.DBObject;
 
 public class EUserDevice extends DBObject {
 
-  private Integer userId;
+  private String userId;
   private String deviceModel;
   private Integer osTypeCode;
   private String tokenNotification;
   private Timestamp modifyDate;
   private String active;
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

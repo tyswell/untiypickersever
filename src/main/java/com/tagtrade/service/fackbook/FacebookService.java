@@ -1,4 +1,4 @@
-package com.tagtrade.service.firebase;
+package com.tagtrade.service.fackbook;
 
 public interface FacebookService {
 	

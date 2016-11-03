@@ -4,14 +4,14 @@ import com.tagtrade.dataacess.DBObject;
 
 public class ErUserRole extends DBObject {
 
-  private Integer userId;
+  private String userId;
   private Integer roleCode;
 
-  public Integer getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(Integer userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

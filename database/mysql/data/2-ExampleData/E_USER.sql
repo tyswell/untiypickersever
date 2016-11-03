@@ -1,1 +1,1 @@
-INSERT INTO E_USER(EMAIL, DISPLAY_NAME, TOKEN_UID, CREATE_DATE, USER_LOGIN_TYPE, ACTIVE) VALUES ('tys_te@hotmail.com', 'Tys Naisen', 'aaa', now(), 1, 'Y');
+INSERT INTO E_USER(USER_ID, EMAIL, DISPLAY_NAME, CREATE_DATE, USER_LOGIN_TYPE, ACTIVE) VALUES ('LNQT3FvvYXeJkYnPzww1ng9R5bf2', 'tys_te@hotmail.com', 'Tys Naisen', now(), 1, 'Y');
