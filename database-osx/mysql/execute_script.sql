@@ -1,5 +1,6 @@
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/create_database.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_rdb.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_sequence.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_entity_content.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_entity_user.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_entity_searching.sql
@@ -7,14 +8,19 @@ source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/table_entity_sea
 
 -- import rdb data
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_URL.sql
-source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_EXTRACT_TYPE.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_FACEBOOK_GROUP.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_SEARCH_TYPE.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_WEB_NAME.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_WEB_TYPE.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_USER_LOGIN_TYPE.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_ROLE.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/1-R/R_OS_TYPE.sql
+
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/3-S/S_CONTENT.sql
 
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/2-ExampleData/E_USER.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/2-ExampleData/E_SEARCHING.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/2-ExampleData/E_USER_FACEBOOK.sql
 source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/2-ExampleData/ER_USER_ROLE.sql
+source /Users/deksen/workspace/tagtrade/tagtrade/database/mysql/data/2-ExampleData/ER_SEARCH_TYPE_MAP_WEB_TYPE.sql
 
