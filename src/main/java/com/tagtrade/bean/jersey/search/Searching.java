@@ -7,7 +7,6 @@ public class Searching {
 	private String description;
 	private Integer searchTypeCode;
 
-
 	public String getTokenId() {
 		return tokenId;
 	}

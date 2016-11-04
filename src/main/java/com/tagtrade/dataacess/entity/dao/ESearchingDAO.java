@@ -158,5 +158,11 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 	  cb.and("active", active);
 	  return selectWithSuffix(cb);
   }
+  
+  public boolean isSearchingExist(final String userId, final Integer searchingId) {
+	    return (0 != getJdbcTemplate().queryForObject(
+	        "select count(*) from e_searching where user_id = ? and searching_id = ? and active = ? ",
+	        new Object[] { userId, searchingId, StatusConst.ACTIVE }, Integer.class));
+}
 
 }

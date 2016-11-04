@@ -10,11 +10,15 @@ public interface SearchingService {
 	
 	public void addSearching(FirebaseUser user, Searching search);
 	
+	public void deleteSearching(Integer searchingId);
+	
 	public List<ESearching> getSearching(int webTypeCode, boolean isActive);
 	
 	public int getNextId();
 	
 	public boolean isWordExist(String userId, String description);
+	
+	public boolean isSearchingExist(String userId, Integer searchingId);
 
 	public List<Searching> getDataSearching(String userId, List<Integer> searchingIds);
 }

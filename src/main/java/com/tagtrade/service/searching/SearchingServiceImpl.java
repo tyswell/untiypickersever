@@ -80,5 +80,15 @@ public class SearchingServiceImpl implements SearchingService {
 		}
 		return results;
 	}
+
+	@Override
+	public void deleteSearching(Integer searchingId) {
+		eSearchingDAO.deleteByKey(searchingId);
+	}
+
+	@Override
+	public boolean isSearchingExist(String userId, Integer searchingId) {
+		return eSearchingDAO.isSearchingExist(userId, searchingId);
+	}
 	
 }
