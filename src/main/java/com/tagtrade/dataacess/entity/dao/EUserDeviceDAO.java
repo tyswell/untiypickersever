@@ -96,7 +96,6 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
   }
 
   public void updateByKey(final EUserDevice eUserDevice) {
-		System.out.println(eUserDevice.toString());
     getJdbcTemplate().update(
         "update e_user_device set os_type_code = ?, token_notification = ?, modify_date = ?, active = ? where device_model = ? and user_id = ?",
         new PreparedStatementSetter() {
@@ -105,8 +104,8 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
             ps.setString(2, eUserDevice.getTokenNotification());
             ps.setTimestamp(3, eUserDevice.getModifyDate());
             ps.setString(4, eUserDevice.getActive());
-            ps.setString(5, eUserDevice.getUserId());
-            ps.setString(6, eUserDevice.getDeviceModel());
+            ps.setString(5, eUserDevice.getDeviceModel());
+            ps.setString(6, eUserDevice.getUserId());
           }
         });
   }

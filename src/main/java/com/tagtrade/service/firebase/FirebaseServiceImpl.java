@@ -39,6 +39,7 @@ public class FirebaseServiceImpl implements FirebaseService {
 	        Tasks.await(authTask);
 	    } catch(ExecutionException | InterruptedException e ){
 	        e.printStackTrace();
+	        return null;
 	    }
 	    
 	    FirebaseToken decodedToken = authTask.getResult();
@@ -61,5 +62,5 @@ public class FirebaseServiceImpl implements FirebaseService {
 		
 		return result;
 	}
-
+	
 }

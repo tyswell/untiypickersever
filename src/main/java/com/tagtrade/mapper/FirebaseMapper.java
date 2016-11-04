@@ -1,5 +1,9 @@
 package com.tagtrade.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.api.client.util.ArrayMap;
 import com.google.firebase.auth.FirebaseToken;
 import com.tagtrade.bean.user.FirebaseFacebookUser;
 import com.tagtrade.bean.user.FirebaseUser;
@@ -17,11 +21,16 @@ public class FirebaseMapper {
 		result.setEmail(data.getEmail());
 		result.setUserId(data.getUid());
 		result.setDisplayName(data.getName());
-		result.setProvider(data.getClaims().get("sign_in_provider").toString());
+		
+	    ArrayMap<String, Object> firebaseMap = (ArrayMap<String, Object>)data.getClaims().get("firebase");
+		result.setProvider(firebaseMap.get("sign_in_provider").toString());
 		
 		FirebaseFacebookUser fbUser = new FirebaseFacebookUser();
-		fbUser.setFacebookId(data.getClaims().get("facebook.com").toString());
-		
+		ArrayMap<String, Object> idenMap = (ArrayMap<String, Object>)firebaseMap.get("identities");
+		List<String> insideDatas = (ArrayList<String>)idenMap.get(result.getProvider());
+		for (String insideData : insideDatas) {
+			fbUser.setFacebookId(insideData);
+		}
 		result.setFirebaseFacebookUser(fbUser);
 		
 		return result;

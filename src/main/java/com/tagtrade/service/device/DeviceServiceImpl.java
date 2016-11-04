@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.dao.EUserDeviceDAO;
+import com.tagtrade.util.DateUtil;
 
 public class DeviceServiceImpl implements DeviceService {
 
@@ -19,7 +20,7 @@ public class DeviceServiceImpl implements DeviceService {
 	@Override
 	public void updateDeviceToke(EUserDevice eUserDevice, String tokenNotification) {
 		eUserDevice.setTokenNotification(tokenNotification);
-
+		eUserDevice.setModifyDate(DateUtil.getTimestampNow());
 		eUserDeviceDAO.updateByKey(eUserDevice);
 	}
 
