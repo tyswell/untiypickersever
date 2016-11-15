@@ -1,5 +1,7 @@
 package com.tagtrade.service.device;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
@@ -22,6 +24,11 @@ public class DeviceServiceImpl implements DeviceService {
 		eUserDevice.setTokenNotification(tokenNotification);
 		eUserDevice.setModifyDate(DateUtil.getTimestampNow());
 		eUserDeviceDAO.updateByKey(eUserDevice);
+	}
+
+	@Override
+	public List<EUserDevice> getAllDevice(String userId) {
+		return eUserDeviceDAO.selectAllDevice(userId);
 	}
 
 }

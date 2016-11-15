@@ -17,7 +17,6 @@ import com.tagtrade.constant.LuceneConstant;
 import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.dataacess.entity.bean.RUrl;
-import com.tagtrade.search.SearchTool;
 import com.tagtrade.service.content.ContentService;
 import com.tagtrade.service.searching.SearchingService;
 

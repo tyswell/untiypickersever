@@ -1,4 +1,4 @@
-package com.tagtrade.search;
+package com.tagtrade.batch.processor;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -50,7 +50,7 @@ public class SearchTool {
 					)) {
 				boolean isMatch = true;
 				for (String searchWord : searchWords) {
-					if (!line.contains(searchWord)) {
+					if (!line.toLowerCase().contains(searchWord.toLowerCase())) {
 						isMatch = false;
 						break;
 					}

@@ -2,6 +2,7 @@ package com.tagtrade.service.user;
 
 import com.tagtrade.bean.jersey.account.Device;
 import com.tagtrade.bean.user.FirebaseUser;
+import com.tagtrade.dataacess.entity.bean.EUser;
 
 public interface UserService {
 	
@@ -18,5 +19,7 @@ public interface UserService {
 	public void updateTokenFB(String userId, String tokenFB, String facebookId);
 		
 	public FirebaseUser getFirebaseUser(String tokenId);
+	
+	public EUser getUser(String userId);
 
 }

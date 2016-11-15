@@ -25,7 +25,6 @@ import com.tagtrade.comparator.ContentComparator;
 import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.dataacess.entity.bean.RFacebookGroup;
-import com.tagtrade.search.SearchTool;
 import com.tagtrade.service.bean.Content;
 import com.tagtrade.service.content.ContentService;
 import com.tagtrade.service.searching.SearchingService;

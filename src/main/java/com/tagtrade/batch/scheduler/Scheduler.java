@@ -45,60 +45,60 @@ public class Scheduler {
 	
 
 	
-//	@Scheduled(cron = "0 */60 0-4 * * *")
-//	public void scheduler1() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */30 5 * * *")
-//	public void scheduler2() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */15 6 * * *")
-//	public void scheduler3() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */10 7 * * *")
-//	public void scheduler4() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */5 8-10 * * *")
-//	public void scheduler5() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */7 11 * * *")
-//	public void scheduler6() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */5 12-14 * * *")
-//	public void scheduler7() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */10 15-16 * * *")
-//	public void scheduler8() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */5 17-19 * * *")
-//	public void scheduler9() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */7 20-21 * * *")
-//	public void scheduler10() {
-//		executeTask();
-//	}
-//	
-//	@Scheduled(cron = "0 */15 22-23 * * *")
-//	public void scheduler11() {
-//		executeTask();
-//	}
+	@Scheduled(cron = "0 */60 0-4 * * *")
+	public void scheduler1() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */30 5 * * *")
+	public void scheduler2() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */15 6 * * *")
+	public void scheduler3() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */10 7 * * *")
+	public void scheduler4() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */5 8-10 * * *")
+	public void scheduler5() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */7 11 * * *")
+	public void scheduler6() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */5 12-14 * * *")
+	public void scheduler7() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */10 15-16 * * *")
+	public void scheduler8() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */5 17-19 * * *")
+	public void scheduler9() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */7 20-21 * * *")
+	public void scheduler10() {
+		executeTask();
+	}
+	
+	@Scheduled(cron = "0 */15 22-23 * * *")
+	public void scheduler11() {
+		executeTask();
+	}
 	
 	private void executeTask() {
 		logger.debug("RUN SCHEDULE");

@@ -26,9 +26,15 @@ import com.tagtrade.bean.FirebaseNotificaiton;
 import com.tagtrade.bean.MessageDataNotification;
 import com.tagtrade.bean.Notification;
 import com.tagtrade.bean.thaimtb.SearchMapContent;
+import com.tagtrade.constant.WebNameConstant;
 import com.tagtrade.dataacess.entity.bean.EContent;
+import com.tagtrade.dataacess.entity.bean.ESearching;
+import com.tagtrade.dataacess.entity.bean.EUser;
+import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.bean.ErSeachingMapContent;
+import com.tagtrade.service.device.DeviceService;
 import com.tagtrade.service.mobile.MobileService;
+import com.tagtrade.service.user.UserService;
 import com.tagtrade.util.DateUtil;
 
 public class CustomWriter implements ItemWriter<BatchOutput>{
@@ -42,6 +48,9 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 	@Autowired
 	private MobileService mobileService;
 	
+	@Autowired
+	private DeviceService deviceService;
+	
 	private Logger logger = LoggerFactory.getLogger(FacebookProcessor.class);
 	
 	@Override
@@ -51,8 +60,9 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 		for (BatchOutput output : outputs) {
 			contentWriter.write( output.geteContent() );
 			searchingMapContentWriter.write( map(output.getSearchMapThaimtbs()) );
+			pushNoti(output);
 		}
-//		pushNoti(output);
+		
 	}
 	
 	private List<ErSeachingMapContent> map(List<SearchMapContent> values){
@@ -73,26 +83,7 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 		return result;
 	}
 	
-	private void pushNoti(BatchOutput output) {		
-		FirebaseNotificaiton firebase = new FirebaseNotificaiton();
-		firebase.setTo("fdFdxKzMi8w:APA91bF4vYC3xQOh-NL73x_-XMEWtIXEf1UdCb3ZFl1tU-EqPjEsuVI5cdMQ1Br_WsbGgC7elN24mpbJBvqfKDkV4kxhPLO7ZHa51N6IhaV6uifqrqDJOtB5okECRA9HyNznOIxoeceG");
-		firebase.setPriority("high");
-		Notification noti = new Notification();
-		noti.setBody("โช๊คมาแล้ว");
-		noti.setIcon("ic_launcher");
-		noti.setTitle("BOT WHISPER");
-		firebase.setNotification(noti);
-		MessageDataNotification msg = new MessageDataNotification();
-		msg.setId(1);
-		msg.setMatching_date(DateUtil.getNow());
-		msg.setSeacrh_word_id(2);
-		msg.setSearch_word_desc("โช๊คมาแล้ว");
-		msg.setTitle_content("ชุดขับภูเขาเทพๆๆๆ ขาRotor REX2 BB30 175 36 ชิฟเตอร์ XX1 ตีนผี XX1 ดิสเบรคXX ");
-		msg.setUrl("http://www.thaimtb.com/forum/viewtopic.php?f=3&t=1504357&sid=0e12d9836df0681d0cc6e47538e7f97a");
-		msg.setUsername("tys_te@hotmail.com");
-		msg.setWeb_name("THAIMTB");
-		firebase.setData(msg);
-		
+	private void sendNoti(FirebaseNotificaiton data) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 		requestHeaders.set(requestHeaders.AUTHORIZATION, "key=AIzaSyBtlo0b2yC0o5wCQV1qguWwdQCHJdoigNM");
@@ -100,7 +91,7 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(firebase);
+			json = mapper.writeValueAsString(data);
 		} catch (JsonProcessingException e1) {
 			e1.printStackTrace();
 		}
@@ -119,7 +110,46 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
         .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 		String tokenResponse = rest.postForObject(baseUrl, piResponse,
 				String.class);
-		System.out.println("tokenResponse="+tokenResponse);
+		logger.info("tokenResponse="+tokenResponse);
+	}
+	
+	private void pushNoti(BatchOutput output) {		
+		List<SearchMapContent> searchMaps = output.getSearchMapThaimtbs();
+		
+		for (SearchMapContent searchMap : searchMaps) {
+			ESearching eSearching = searchMap.geteSearching();
+			EContent content = searchMap.geteContent();
+			List<EUserDevice> devices = deviceService.getAllDevice(eSearching.getUserId());
+			
+			for (EUserDevice device : devices) {
+				logger.info("SEND NOTIFICATION TITLE : " + eSearching.getDescription() + " || user id :" + eSearching.getUserId());
+				FirebaseNotificaiton firebase = new FirebaseNotificaiton();
+				firebase.setTo(device.getTokenNotification());
+				firebase.setPriority("high");
+				Notification noti = new Notification();
+				noti.setBody(content.getTitle());
+				noti.setIcon("ic_launcher");
+				noti.setTitle(eSearching.getDescription());
+				firebase.setNotification(noti);
+				MessageDataNotification msg = new MessageDataNotification();
+				msg.setId(eSearching.getSearchingId());
+				msg.setMatching_date(DateUtil.getNow());
+				msg.setSeacrh_word_id(eSearching.getSearchingId());
+				msg.setSearch_word_desc(eSearching.getDescription());
+				msg.setTitle_content(content.getTitle());
+				msg.setUrl(content.getUrlContentLink());
+				msg.setUsername("tys_te@hotmail.com");
+				msg.setWeb_name(WebNameConstant.THAIMTB_DESC);
+				firebase.setData(msg);
+				
+				sendNoti(firebase);
+			}
+			
+		}
+		
+
+		
+		
 	}
 
 }

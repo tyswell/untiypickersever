@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.tagtrade.dataacess.BaseDAO;
+import com.tagtrade.dataacess.CriteriaBuilder;
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 
 public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
@@ -128,5 +129,12 @@ public class EUserDeviceDAO extends BaseDAO<EUserDevice> {
   * If you want to add your code, please insert it below.
   *******************************************************************************
   */
+  
+  public List<EUserDevice> selectAllDevice(final String user_id) {
+	  CriteriaBuilder cb = new CriteriaBuilder();
+	  cb.and("user_id", user_id);
+	  
+	  return selectWithSuffix(cb);
+  }
 
 }

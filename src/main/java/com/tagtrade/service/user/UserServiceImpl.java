@@ -118,4 +118,9 @@ public class UserServiceImpl implements UserService {
 		return eUserDAO.isKeyExist(userId);
 	}
 
+	@Override
+	public EUser getUser(String userId) {
+		return eUserDAO.selectByKey(userId);
+	}
+
 }
