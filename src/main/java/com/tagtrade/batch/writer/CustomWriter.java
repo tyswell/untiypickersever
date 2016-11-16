@@ -24,17 +24,14 @@ import com.tagtrade.batch.processor.FacebookProcessor;
 import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.bean.FirebaseNotificaiton;
 import com.tagtrade.bean.MessageDataNotification;
-import com.tagtrade.bean.Notification;
 import com.tagtrade.bean.thaimtb.SearchMapContent;
 import com.tagtrade.constant.WebNameConstant;
 import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
-import com.tagtrade.dataacess.entity.bean.EUser;
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.bean.ErSeachingMapContent;
 import com.tagtrade.service.device.DeviceService;
 import com.tagtrade.service.mobile.MobileService;
-import com.tagtrade.service.user.UserService;
 import com.tagtrade.util.DateUtil;
 
 public class CustomWriter implements ItemWriter<BatchOutput>{
@@ -95,7 +92,7 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 		} catch (JsonProcessingException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println("jsonBody="+json);
+		logger.info("jsonBody="+json);
 		HttpEntity<String> piResponse = new HttpEntity<String>(json, requestHeaders);
 
 		
@@ -110,6 +107,7 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
         .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 		String tokenResponse = rest.postForObject(baseUrl, piResponse,
 				String.class);
+		
 		logger.info("tokenResponse="+tokenResponse);
 	}
 	
@@ -125,20 +123,14 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 				logger.info("SEND NOTIFICATION TITLE : " + eSearching.getDescription() + " || user id :" + eSearching.getUserId());
 				FirebaseNotificaiton firebase = new FirebaseNotificaiton();
 				firebase.setTo(device.getTokenNotification());
-				firebase.setPriority("high");
-				Notification noti = new Notification();
-				noti.setBody(content.getTitle());
-				noti.setIcon("ic_launcher");
-				noti.setTitle(eSearching.getDescription());
-				firebase.setNotification(noti);
 				MessageDataNotification msg = new MessageDataNotification();
-				msg.setId(eSearching.getSearchingId());
 				msg.setMatching_date(DateUtil.getNow());
 				msg.setSeacrh_word_id(eSearching.getSearchingId());
 				msg.setSearch_word_desc(eSearching.getDescription());
+				msg.setContent_id(content.getContentId());
 				msg.setTitle_content(content.getTitle());
 				msg.setUrl(content.getUrlContentLink());
-				msg.setUsername("tys_te@hotmail.com");
+				msg.setUser_id(device.getUserId());
 				msg.setWeb_name(WebNameConstant.THAIMTB_DESC);
 				firebase.setData(msg);
 				
@@ -146,10 +138,5 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 			}
 			
 		}
-		
-
-		
-		
 	}
-
 }

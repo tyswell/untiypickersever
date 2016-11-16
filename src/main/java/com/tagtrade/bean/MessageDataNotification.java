@@ -4,26 +4,27 @@ import java.util.Date;
 
 public class MessageDataNotification {
 	
-    private Integer id;
-    private String username;
+    private String user_id;
     private Integer seacrh_word_id;
     private String search_word_desc;
+    private Integer content_id;
     private String title_content;
     private String web_name;
     private String url;
     private Date matching_date;
     
-	public Integer getId() {
-		return id;
+    
+	public Integer getContent_id() {
+		return content_id;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setContent_id(Integer content_id) {
+		this.content_id = content_id;
 	}
-	public String getUsername() {
-		return username;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	public Integer getSeacrh_word_id() {
 		return seacrh_word_id;
