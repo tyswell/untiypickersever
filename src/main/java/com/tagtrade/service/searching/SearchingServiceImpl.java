@@ -41,13 +41,16 @@ public class SearchingServiceImpl implements SearchingService {
 	}
 
 	@Override
-	public void addSearching(FirebaseUser user, Searching search) {
+	public int addSearching(FirebaseUser user, Searching search) {
+		int id = getNextId();
 		ESearching eSearching = SearchingMapper.mapToDAO(user, search);
-		eSearching.setSearchingId(getNextId());
+		eSearching.setSearchingId(id);
 		eSearching.setCreateDate(DateUtil.getTimestampNow());
 		eSearching.setActive(StatusConst.ACTIVE);
 		
 		eSearchingDAO.insert(eSearching);
+		
+		return id;
 	}
 
 	@Override

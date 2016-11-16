@@ -93,10 +93,8 @@ public class UserServiceImpl implements UserService {
 		EUserFacebook eUserFacebook = eUserFacebookDAO.selectByKey(userId);
 		// UPDATE TOKEN
 		if (eUserFacebook != null) {
-			if (!eUserFacebook.getTokenFacebook().equals(tokenFB)){
-				eUserFacebook.setTokenFacebook(tokenFB);
-				eUserFacebookDAO.updateByKey(eUserFacebook);
-			}
+			eUserFacebook.setTokenFacebook(tokenFB);
+			eUserFacebookDAO.updateByKey(eUserFacebook);
 		} else { // OLD LOGIN WITH GOOGLE, NOW LOGIN WITH FB
 			//-------- INSERT EUSER_FACEBOOK
 			EUserFacebook dataUserFacebook = new EUserFacebook();

@@ -37,9 +37,9 @@ public class SearchingFrontendService {
 			String userId = user.getUserId();
 			
 			if (!searchingService.isWordExist(userId, search.getDescription())) {
-				searchingService.addSearching(user, search);
+				int id = searchingService.addSearching(user, search);
 				
-				return Response.status(201).entity(true).build();
+				return Response.status(201).entity(id).build();
 			} else {
 				throw new EUError("SEARCHING WORD ALREADY EXIST");
 			}
