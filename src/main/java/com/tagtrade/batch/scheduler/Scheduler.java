@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import com.tagtrade.batch.processor.thaimtb.ThaimtbProcessorTemp;
 
 /*
+ * 1.01 am delete old data in DB
+ */
+/*
  * 0-5   every 60 min
  * 5-6   every 30 min
  * 6-7   every 15 min
@@ -36,6 +39,9 @@ public class Scheduler {
 	@Autowired
 	Job importUserJobx;
 	
+	@Autowired
+	Job clearDBJob;
+	
 	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessorTemp.class);
 
 //	@Scheduled(fixedDelayString="300000")
@@ -43,7 +49,20 @@ public class Scheduler {
 //		executeTask();
 //	}
 	
-
+	@Scheduled(cron = "0 15 1 * * ?")
+	public void taskRoutine() {
+		logger.debug("RUN TASK ROUTINE DELETE DATABASE");
+		
+		JobParameters jobParameters = new JobParametersBuilder().addLong(
+				"time", System.currentTimeMillis()).toJobParameters();
+		try {
+			JobExecution execution = jobLauncher.run(clearDBJob,
+					jobParameters);
+			System.out.println("Exit Status : " + execution.getStatus());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Scheduled(cron = "0 */60 0-4 * * *")
 	public void scheduler1() {

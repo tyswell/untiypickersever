@@ -122,5 +122,10 @@ public class ErSeachingMapContentDAO extends BaseDAO<ErSeachingMapContent> {
   * If you want to add your code, please insert it below.
   *******************************************************************************
   */
+  
+  public void deleteOldContent(int oldDate) {
+	  String sql = "DELETE FROM er_seaching_map_content WHERE CONTENT_ID in (select CONTENT_ID from e_content WHERE create_date < DATE_SUB(NOW(), INTERVAL "+oldDate+" DAY))";
+	  getJdbcTemplate().update(sql);
+  }
 
 }

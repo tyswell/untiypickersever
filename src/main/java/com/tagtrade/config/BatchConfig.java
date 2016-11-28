@@ -12,6 +12,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -31,6 +32,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.tagtrade.batch.processor.CustomProcessor;
+import com.tagtrade.batch.tasklet.ClearDBTasklet;
 import com.tagtrade.batch.writer.CustomWriter;
 import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.dataacess.entity.bean.EContent;
@@ -136,6 +138,29 @@ public class BatchConfig {
 		simpleJobLauncher.setJobRepository(jobRepository);
 	    return simpleJobLauncher;
 	}
+	
+	//------------------------------------------------------------------------------
+	
+	
+	@Bean
+	public Job clearDBJob(JobBuilderFactory jobs, Step stepClearDB) {
+		return jobs.get("clearDBJob")
+				.flow(stepClearDB)
+				.end()
+				.build();
+	}
+	
+	@Bean
+	public Step stepClearDB(StepBuilderFactory sbf) {
+		return sbf.get("stepClearDB")
+				.tasklet(clearDBTasklet())
+				.build();
+	}
+	
+	 @Bean
+    public Tasklet clearDBTasklet() {
+        return new ClearDBTasklet();
+    }
 
 
 }

@@ -137,8 +137,7 @@ public class EContentDAO extends BaseDAO<EContent> {
   */
   
 	public EContent selectLastestId(int urlCode) {
-		String sql = strs(
-				"where content_id =",
+		String sql = strs(			"where content_id =",
 					"(",
 						"select max(content_id)",
 							"from e_content",
@@ -196,6 +195,11 @@ public class EContentDAO extends BaseDAO<EContent> {
 		} else {
 			return null;
 		}
+	}
+	
+	public void deleteOldContent(int oldDate) {
+		String sql = "DELETE FROM e_content WHERE create_date < DATE_SUB(NOW(), INTERVAL " + oldDate + " DAY)";
+		getJdbcTemplate().update(sql);
 	}
 
 }
