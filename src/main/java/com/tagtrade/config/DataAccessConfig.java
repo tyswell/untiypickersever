@@ -8,6 +8,7 @@ import com.tagtrade.dataacess.entity.dao.ESearchingDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDeviceDAO;
 import com.tagtrade.dataacess.entity.dao.EUserFacebookDAO;
+import com.tagtrade.dataacess.entity.dao.EUserGoogleDAO;
 import com.tagtrade.dataacess.entity.dao.ErSeachingMapContentDAO;
 import com.tagtrade.dataacess.entity.dao.ErSearchTypeMapWebTypeDAO;
 import com.tagtrade.dataacess.entity.dao.RFacebookGroupDAO;
@@ -44,6 +45,11 @@ public class DataAccessConfig {
 	@Bean
 	public EUserFacebookDAO eUserFacebookDAO() {
 		return new EUserFacebookDAO();
+	}
+	
+	@Bean
+	public EUserGoogleDAO eUserGoogleDAO() {
+		return new EUserGoogleDAO();
 	}
 	
 	@Bean

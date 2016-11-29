@@ -4,6 +4,7 @@ import com.tagtrade.bean.jersey.account.Device;
 import com.tagtrade.bean.user.FirebaseUser;
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.bean.EUserFacebook;
+import com.tagtrade.dataacess.entity.bean.EUserGoogle;
 import com.tagtrade.util.dozer.MappingUtil;
 
 public class UserMapper {
@@ -26,6 +27,19 @@ public class UserMapper {
 			result.setUserId(data.getUserId());
 			result.setFacebookId(data.getFirebaseFacebookUser().getFacebookId());
 			result.setTokenFacebook(data.getFirebaseFacebookUser().getFacebookToken());
+
+			return result;
+		} else {
+			return null;
+		}
+	}
+	
+	public static EUserGoogle toEntityGoogle(FirebaseUser data) {
+		if (data != null) {
+			EUserGoogle result = new EUserGoogle();
+			result.setUserId(data.getUserId());
+			result.setGoogleId(data.getFirebaseFacebookUser().getFacebookId());
+			result.setTokenGoogle(data.getFirebaseFacebookUser().getFacebookToken());
 
 			return result;
 		} else {

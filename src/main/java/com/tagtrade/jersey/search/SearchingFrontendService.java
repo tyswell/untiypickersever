@@ -9,9 +9,11 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tagtrade.bean.jersey.search.AddSearchingResponse;
 import com.tagtrade.bean.jersey.search.DeleteSearching;
 import com.tagtrade.bean.jersey.search.Searching;
 import com.tagtrade.bean.user.FirebaseUser;
+import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.exception.EUError;
 import com.tagtrade.service.searching.SearchingService;
 import com.tagtrade.service.user.UserService;
@@ -37,9 +39,12 @@ public class SearchingFrontendService {
 			String userId = user.getUserId();
 			
 			if (!searchingService.isWordExist(userId, search.getDescription())) {
-				int id = searchingService.addSearching(user, search);
+				ESearching eSearching = searchingService.addSearching(user, search);
+				AddSearchingResponse response = new AddSearchingResponse();
+				response.setCreateDate(eSearching.getCreateDate());
+				response.setSearchingId(response.getSearchingId());
 				
-				return Response.status(201).entity(id).build();
+				return Response.status(201).entity(response).build();
 			} else {
 				throw new EUError("SEARCHING WORD ALREADY EXIST");
 			}

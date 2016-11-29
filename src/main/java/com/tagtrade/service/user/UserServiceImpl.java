@@ -10,9 +10,11 @@ import com.tagtrade.constant.UserLoginType;
 import com.tagtrade.dataacess.entity.bean.EUser;
 import com.tagtrade.dataacess.entity.bean.EUserDevice;
 import com.tagtrade.dataacess.entity.bean.EUserFacebook;
+import com.tagtrade.dataacess.entity.bean.EUserGoogle;
 import com.tagtrade.dataacess.entity.dao.EUserDAO;
 import com.tagtrade.dataacess.entity.dao.EUserDeviceDAO;
 import com.tagtrade.dataacess.entity.dao.EUserFacebookDAO;
+import com.tagtrade.dataacess.entity.dao.EUserGoogleDAO;
 import com.tagtrade.mapper.FirebaseMapper;
 import com.tagtrade.mapper.UserMapper;
 import com.tagtrade.service.fackbook.FacebookService;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	private EUserDAO eUserDAO;
 	@Autowired
 	private EUserFacebookDAO eUserFacebookDAO;
+	@Autowired
+	private EUserGoogleDAO eUserGoogleDAO;
 	@Autowired
 	private EUserDeviceDAO eUserDeviceDAO;
 	@Autowired
@@ -42,6 +46,9 @@ public class UserServiceImpl implements UserService {
 			//-------- INSERT EUSER_FACEBOOK
 			EUserFacebook eUserFacebook = UserMapper.toEntityFacebook(user);
 			eUserFacebookDAO.insert(eUserFacebook);
+		} else if (eUser.getUserLoginType() == UserLoginType.GOOGLE_LOGIN) {
+			EUserGoogle eUserGoogle = UserMapper.toEntityGoogle(user);
+			eUserGoogleDAO.insert(eUserGoogle);
 		}
 
 		//-------- INSERT EUSER_DEVICE
@@ -68,7 +75,9 @@ public class UserServiceImpl implements UserService {
 		}
 				
 		// UPDATE TOKEN
-		updateTokenFB(user.getUserId(), user.getFirebaseFacebookUser().getFacebookToken(), user.getFirebaseFacebookUser().getFacebookId());
+		if (UserLoginType.FACEBOOK_LOGIN == user.getUserLoginType()) {
+			updateTokenFB(user.getUserId(), user.getFirebaseFacebookUser().getFacebookToken(), user.getFirebaseFacebookUser().getFacebookId());
+		}
 	}
 	
 
@@ -107,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public FirebaseUser getFirebaseUser(String tokenId) {
-//		return firebaseService.getFirebaseUser(tokenId);
+//TODO	return firebaseService.getFirebaseUser(tokenId);
 		return firebaseService.getFirebaseUserTest(tokenId);
 	}
 	

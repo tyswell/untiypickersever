@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.tagtrade.bean.jersey.account.LoginReceive;
 import com.tagtrade.bean.jersey.account.LoginResponse;
 import com.tagtrade.bean.user.FirebaseUser;
-import com.tagtrade.constant.UserLoginType;
 import com.tagtrade.exception.EUError;
 import com.tagtrade.service.searching.SearchingService;
 import com.tagtrade.service.user.UserService;

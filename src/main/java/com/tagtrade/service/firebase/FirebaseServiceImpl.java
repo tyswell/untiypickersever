@@ -53,7 +53,7 @@ public class FirebaseServiceImpl implements FirebaseService {
 		result.setEmail("tys_te@hotmail.com");
 		result.setUserId("LNQT3FvvYXeJkYnPzww1ng9R5bf2");
 		result.setDisplayName("Tys Naisen");
-		result.setProvider("facebook.com");
+		result.setUserLoginType(1);
 		
 		FirebaseFacebookUser fbUser = new FirebaseFacebookUser();
 		fbUser.setFacebookId("10154907477446754");

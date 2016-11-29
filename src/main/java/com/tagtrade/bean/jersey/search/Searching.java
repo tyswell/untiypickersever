@@ -1,4 +1,7 @@
 package com.tagtrade.bean.jersey.search;
+
+import java.sql.Timestamp;
+
 public class Searching {
 
 	private String tokenId;
@@ -6,6 +9,7 @@ public class Searching {
 	private Integer searchingId;
 	private String description;
 	private Integer searchTypeCode;
+	private Timestamp createDate;
 
 	public String getTokenId() {
 		return tokenId;
@@ -37,6 +41,14 @@ public class Searching {
 
 	public void setSearchingId(Integer searchingId) {
 		this.searchingId = searchingId;
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
 	}
 	
 	

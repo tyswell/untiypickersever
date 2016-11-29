@@ -4,10 +4,11 @@ public class FirebaseUser {
 	
 	private String userId;
 	private String displayName;
-	private String provider;
+	private Integer userLoginType;
 	private String email;
 	
 	private FirebaseFacebookUser firebaseFacebookUser;
+	private FirebaseGoogleUser firebaseGoogleUser;
 
 	
 	public String getDisplayName() {
@@ -26,12 +27,12 @@ public class FirebaseUser {
 		this.userId = userId;
 	}
 
-	public String getProvider() {
-		return provider;
+	public Integer getUserLoginType() {
+		return userLoginType;
 	}
 
-	public void setProvider(String provider) {
-		this.provider = provider;
+	public void setUserLoginType(Integer userLoginType) {
+		this.userLoginType = userLoginType;
 	}
 
 	public String getEmail() {
@@ -48,6 +49,14 @@ public class FirebaseUser {
 
 	public void setFirebaseFacebookUser(FirebaseFacebookUser firebaseFacebookUser) {
 		this.firebaseFacebookUser = firebaseFacebookUser;
+	}
+
+	public FirebaseGoogleUser getFirebaseGoogleUser() {
+		return firebaseGoogleUser;
+	}
+
+	public void setFirebaseGoogleUser(FirebaseGoogleUser firebaseGoogleUser) {
+		this.firebaseGoogleUser = firebaseGoogleUser;
 	}
 	
 	

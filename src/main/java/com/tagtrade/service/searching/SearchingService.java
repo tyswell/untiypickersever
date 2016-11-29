@@ -8,7 +8,7 @@ import com.tagtrade.dataacess.entity.bean.ESearching;
 
 public interface SearchingService {
 	
-	public int addSearching(FirebaseUser user, Searching search);
+	public ESearching addSearching(FirebaseUser user, Searching search);
 	
 	public void deleteSearching(Integer searchingId);
 	
