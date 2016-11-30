@@ -85,8 +85,8 @@ public class SearchingServiceImpl implements SearchingService {
 	}
 
 	@Override
-	public void deleteSearching(Integer searchingId) {
-		eSearchingDAO.deleteByKey(searchingId);
+	public void inactiveSearching(Integer searchingId) {
+		eSearchingDAO.inactiveByKey(searchingId);
 	}
 
 	@Override

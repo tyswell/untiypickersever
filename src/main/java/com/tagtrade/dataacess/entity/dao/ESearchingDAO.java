@@ -163,6 +163,17 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
 	    return (0 != getJdbcTemplate().queryForObject(
 	        "select count(*) from e_searching where user_id = ? and searching_id = ? and active = ? ",
 	        new Object[] { userId, searchingId, StatusConst.ACTIVE }, Integer.class));
-}
+  }
+  
+  public void inactiveByKey(final Integer searchingId) {
+	    getJdbcTemplate().update(
+	        "update e_searching set active = ? where searching_id = ?",
+	        new PreparedStatementSetter() {
+	          public void setValues(PreparedStatement ps) throws SQLException {
+	            ps.setString(1, StatusConst.INACTIVE);
+	            ps.setObject(2, searchingId);
+	          }
+	        });
+	  }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tagtrade.bean.jersey.search.AddSearchingResponse;
-import com.tagtrade.bean.jersey.search.DeleteSearching;
+import com.tagtrade.bean.jersey.search.InactiveSearching;
 import com.tagtrade.bean.jersey.search.Searching;
 import com.tagtrade.bean.user.FirebaseUser;
 import com.tagtrade.dataacess.entity.bean.ESearching;
@@ -54,21 +54,21 @@ public class SearchingFrontendService {
 	}
 	
 	@POST
-	@Path("/deletesearch")
+	@Path("/inactivesearch")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response deleteSearch(DeleteSearching deleteSearching) throws EUError {
-		validate(deleteSearching);
+	public Response inactiveSearch(InactiveSearching inactiveSearching) throws EUError {
+		validate(inactiveSearching);
 		
-		FirebaseUser user = userService.getFirebaseUser(deleteSearching.getTokenId());
+		FirebaseUser user = userService.getFirebaseUser(inactiveSearching.getTokenId());
 		if (user != null) {
 			String userId = user.getUserId();
 			
-			if (!searchingService.isSearchingExist(userId, deleteSearching.getSearchingId())) {
-				searchingService.deleteSearching(deleteSearching.getSearchingId());
+			if (!searchingService.isSearchingExist(userId, inactiveSearching.getSearchingId())) {
+				searchingService.inactiveSearching(inactiveSearching.getSearchingId());
 				
 				return Response.status(201).entity(true).build();
 			} else {
-				throw new EUError("SEARCHING ID IS WRONG : " + deleteSearching.getSearchingId());
+				throw new EUError("SEARCHING ID IS WRONG : " + inactiveSearching.getSearchingId());
 			}
 		} else {
 			throw new EUError("TOKEN IS WRONG");
@@ -76,7 +76,7 @@ public class SearchingFrontendService {
 	}
 
 	
-	private void validate(DeleteSearching deleteSearching) throws EUError {
+	private void validate(InactiveSearching deleteSearching) throws EUError {
 		if (deleteSearching == null) {
 			throw new EUError("DeleteSearching is Null");
 		}

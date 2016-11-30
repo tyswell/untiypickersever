@@ -10,7 +10,7 @@ public interface SearchingService {
 	
 	public ESearching addSearching(FirebaseUser user, Searching search);
 	
-	public void deleteSearching(Integer searchingId);
+	public void inactiveSearching(Integer searchingId);
 	
 	public List<ESearching> getSearching(int webTypeCode, boolean isActive);
 	

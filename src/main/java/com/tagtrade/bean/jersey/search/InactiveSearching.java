@@ -1,6 +1,6 @@
 package com.tagtrade.bean.jersey.search;
 
-public class DeleteSearching {
+public class InactiveSearching {
 	
 	private String tokenId;
 
