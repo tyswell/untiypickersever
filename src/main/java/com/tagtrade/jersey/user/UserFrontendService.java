@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.tagtrade.bean.jersey.account.LoginReceive;
 import com.tagtrade.bean.jersey.account.LoginResponse;
+import com.tagtrade.bean.jersey.account.LogoutReceive;
 import com.tagtrade.bean.user.FirebaseUser;
 import com.tagtrade.exception.EUError;
 import com.tagtrade.service.searching.SearchingService;
@@ -50,6 +51,34 @@ public class UserFrontendService {
 		} else {
 			throw new EUError("TOKEN IS WRONG");
 		}		
+	}
+	
+	@POST
+	@Path("/logout")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response logout(LogoutReceive logoutReceive) throws EUError {
+		validate(logoutReceive);
+		
+		FirebaseUser user = userService.getFirebaseUser(logoutReceive.getTokenId());
+		if (user != null) {
+			if (userService.isUserIdExist(user.getUserId())) {
+				userService.logout(user.getUserId());		
+			} 
+						
+			return Response.status(201).entity(true).build();
+		} else {
+			throw new EUError("TOKEN IS WRONG");
+		}		
+	}
+	
+	private void validate(LogoutReceive logoutReceive) throws EUError {
+		if (logoutReceive == null) {
+			throw new EUError("loginReceive IS NULL");
+		}
+		
+		if (logoutReceive.getTokenId() == null) {
+			throw new EUError("TokenId IS NULL");
+		}
 	}
 
 	private void validate(LoginReceive loginReceive) throws EUError {

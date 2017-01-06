@@ -11,6 +11,7 @@ public class EUser extends DBObject {
   private String displayName;
   private Timestamp createDate;
   private Integer userLoginType;
+  private String login;
   private String active;
 
   public String getUserId() {
@@ -53,6 +54,14 @@ public class EUser extends DBObject {
     this.userLoginType = userLoginType;
   }
 
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
   public String getActive() {
     return active;
   }
@@ -68,6 +77,7 @@ public class EUser extends DBObject {
         format("displayName") + ": " + format(displayName) + ", " +
         format("createDate") + ": " + format(createDate) + ", " +
         format("userLoginType") + ": " + format(userLoginType) + ", " +
+        format("login") + ": " + format(login) + ", " +
         format("active") + ": " + format(active) +
       "}");
   }

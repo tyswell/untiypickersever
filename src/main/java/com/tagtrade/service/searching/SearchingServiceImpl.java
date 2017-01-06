@@ -14,7 +14,6 @@ import com.tagtrade.dataacess.entity.dao.ESearchingDAO;
 import com.tagtrade.dataacess.entity.dao.ErSearchTypeMapWebTypeDAO;
 import com.tagtrade.mapper.SearchingMapper;
 import com.tagtrade.util.DateUtil;
-import com.tagtrade.util.FlagConstant;
 
 public class SearchingServiceImpl implements SearchingService {
 
@@ -32,7 +31,7 @@ public class SearchingServiceImpl implements SearchingService {
 			seachTypeCodes.add(erData.getSearchTypeCode());
 		}
 		
-		return eSearchingDAO.getSearch(FlagConstant.convertToBooleanString(isActive), seachTypeCodes);
+		return eSearchingDAO.getActiveSearch(seachTypeCodes);
 	}
 
 	@Override

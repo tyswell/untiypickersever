@@ -13,7 +13,7 @@ import com.tagtrade.dataacess.entity.bean.EUser;
 
 public class EUserDAO extends BaseDAO<EUser> {
 
-  private static final String FIELD_NAMES = "user_id, email, display_name, create_date, user_login_type, active";
+  private static final String FIELD_NAMES = "user_id, email, display_name, create_date, user_login_type, login, active";
 
   protected static final RowMapper<EUser> ROW_MAPPER = new RowMapper<EUser>() {
     public EUser mapRow(ResultSet rs, int index) throws SQLException {
@@ -24,6 +24,7 @@ public class EUserDAO extends BaseDAO<EUser> {
       result.setDisplayName( rs.getString("display_name") );
       result.setCreateDate( rs.getTimestamp("create_date") );
       result.setUserLoginType( (Integer) rs.getObject("user_login_type") );
+      result.setLogin( rs.getString("login") );
       result.setActive( rs.getString("active") );
 
       return result;
@@ -32,7 +33,7 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   public void insert(final EUser eUser) {
     getJdbcTemplate().update(
-        "insert into e_user (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?)",
+        "insert into e_user (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setString(1, eUser.getUserId());
@@ -40,7 +41,8 @@ public class EUserDAO extends BaseDAO<EUser> {
             pstmt.setString(3, eUser.getDisplayName());
             pstmt.setTimestamp(4, eUser.getCreateDate());
             pstmt.setObject(5, eUser.getUserLoginType());
-            pstmt.setString(6, eUser.getActive());
+            pstmt.setString(6, eUser.getLogin());
+            pstmt.setString(7, eUser.getActive());
           }
         });
   }
@@ -96,15 +98,16 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   public void updateByKey(final EUser eUser) {
     getJdbcTemplate().update(
-        "update e_user set email = ?, display_name = ?, create_date = ?, user_login_type = ?, active = ? where user_id = ?",
+        "update e_user set email = ?, display_name = ?, create_date = ?, user_login_type = ?, login = ?, active = ? where user_id = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, eUser.getEmail());
             ps.setString(2, eUser.getDisplayName());
             ps.setTimestamp(3, eUser.getCreateDate());
             ps.setObject(4, eUser.getUserLoginType());
-            ps.setString(5, eUser.getActive());
-            ps.setString(6, eUser.getUserId());
+            ps.setString(5, eUser.getLogin());
+            ps.setString(6, eUser.getActive());
+            ps.setString(7, eUser.getUserId());
           }
         });
   }
@@ -121,7 +124,7 @@ public class EUserDAO extends BaseDAO<EUser> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-11-03,   14:40:12
+  * Code Generated on   2017-01-06,   18:00:18
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************
@@ -153,5 +156,16 @@ public class EUserDAO extends BaseDAO<EUser> {
 		return getJdbcTemplate().queryForObject(
 				"select max(user_id) from " + "e_user", Integer.class);
 	}
+	
+	public void setStatusLogin(final String userId, final String status) {
+	    getJdbcTemplate().update(
+	        "update e_searching set login = ? where user_id = ?",
+	        new PreparedStatementSetter() {
+	          public void setValues(PreparedStatement ps) throws SQLException {
+	            ps.setString(1, status);
+	            ps.setObject(2, userId);
+	          }
+	        });
+	 }
 
 }

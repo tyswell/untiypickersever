@@ -21,5 +21,7 @@ public interface UserService {
 	public FirebaseUser getFirebaseUser(String tokenId);
 	
 	public EUser getUser(String userId);
+	
+	public void logout(String userId);
 
 }

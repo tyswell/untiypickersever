@@ -129,11 +129,16 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
   *******************************************************************************
   */
   
-  public List<ESearching> getSearch(String active, List<Integer> searchTypeCode) {
-	  CriteriaBuilder cb = new CriteriaBuilder();
-	  cb.andIn("search_type_code", searchTypeCode);
-	  cb.and("active", active);
-	  return selectWithSuffix(cb);
+  public List<ESearching> getActiveSearch(List<Integer> searchTypeCode) {	  
+	  String sql = strs("SELECT *",
+	  		"FROM e_searching e_s",
+	  		"inner join e_user e_u",
+	  		"on e_s.user_id = e_s.user_id",
+	  		"where e_s.search_type_code = " + searchTypeCode + " and e_s.active = 'Y' and e_u.ACTIVE = 'Y' and e_u.LOGIN = 'Y' ");
+	  
+	  return (List<ESearching>) getJdbcTemplate().query(
+		        sql,
+		        ROW_MAPPER);
   }
   
   public int nextSequence(){

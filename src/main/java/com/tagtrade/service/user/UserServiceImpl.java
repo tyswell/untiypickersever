@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 		//-------- INSERT EUSER
 		EUser eUser = FirebaseMapper.mapToDB(user);
 		eUser.setActive(StatusConst.ACTIVE);
+		eUser.setLogin(StatusConst.ACTIVE);
 		eUserDAO.insert(eUser);
 				
 		if (eUser.getUserLoginType() == UserLoginType.FACEBOOK_LOGIN) {
@@ -59,6 +60,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void login(FirebaseUser user, Device device) {		
+		eUserDAO.setStatusLogin(user.getUserId(), StatusConst.ACTIVE);
+		
 		EUserDevice eUserDeviceData = eUserDeviceDAO.selectByKey(user.getUserId(), device.getDeviceModel());
 		
 		if (eUserDeviceData != null) {
@@ -128,6 +131,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public EUser getUser(String userId) {
 		return eUserDAO.selectByKey(userId);
+	}
+
+	@Override
+	public void logout(String userId) {
+		eUserDAO.setStatusLogin(userId, StatusConst.INACTIVE);
 	}
 
 }
