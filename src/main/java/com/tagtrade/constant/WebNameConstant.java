@@ -8,4 +8,7 @@ public class WebNameConstant {
 	public static final int FACEBOOK_CODE = 2;
 	public static final String FACEBOOK_DESC = "FACEBOOK_CODE";
 	
+	public static final int WEBPRA_CODE =3;
+	public static final String WEBPRA_DESC = "WEB-PRA";
+	
 }

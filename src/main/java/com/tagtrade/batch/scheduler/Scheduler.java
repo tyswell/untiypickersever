@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.tagtrade.batch.processor.thaimtb.ThaimtbProcessorTemp;
-
 /*
  * 1.01 am delete old data in DB
  */
@@ -42,7 +40,7 @@ public class Scheduler {
 	@Autowired
 	Job clearDBJob;
 	
-	private Logger logger = LoggerFactory.getLogger(ThaimtbProcessorTemp.class);
+	private Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
 //	@Scheduled(fixedDelayString="300000")
 //	public void scheduler1() {

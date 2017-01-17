@@ -8,6 +8,7 @@ public class RFacebookGroup extends DBObject {
   private String groupname;
   private String groupid;
   private Integer webTypeCode;
+  private Integer facebookGroupTypeCode;
   private String active;
 
   public Integer getCode() {
@@ -42,6 +43,14 @@ public class RFacebookGroup extends DBObject {
     this.webTypeCode = webTypeCode;
   }
 
+  public Integer getFacebookGroupTypeCode() {
+    return facebookGroupTypeCode;
+  }
+
+  public void setFacebookGroupTypeCode(Integer facebookGroupTypeCode) {
+    this.facebookGroupTypeCode = facebookGroupTypeCode;
+  }
+
   public String getActive() {
     return active;
   }
@@ -56,6 +65,7 @@ public class RFacebookGroup extends DBObject {
         format("groupname") + ": " + format(groupname) + ", " +
         format("groupid") + ": " + format(groupid) + ", " +
         format("webTypeCode") + ": " + format(webTypeCode) + ", " +
+        format("facebookGroupTypeCode") + ": " + format(facebookGroupTypeCode) + ", " +
         format("active") + ": " + format(active) +
       "}");
   }

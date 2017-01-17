@@ -130,16 +130,37 @@ public class ESearchingDAO extends BaseDAO<ESearching> {
   */
   
   public List<ESearching> getActiveSearch(List<Integer> searchTypeCode) {	  
-	  String sql = strs("SELECT *",
-	  		"FROM e_searching e_s",
-	  		"inner join e_user e_u",
-	  		"on e_s.user_id = e_s.user_id",
-	  		"where e_s.search_type_code = " + searchTypeCode + " and e_s.active = 'Y' and e_u.ACTIVE = 'Y' and e_u.LOGIN = 'Y' ");
+	  CriteriaBuilder cb = new CriteriaBuilder();
+	  cb.andIn("e_s.search_type_code", searchTypeCode);
+	  cb.and("e_s.active", StatusConst.ACTIVE);
+	  cb.and("e_u.ACTIVE", StatusConst.ACTIVE);
+	  cb.and("e_u.LOGIN", StatusConst.ACTIVE);
 	  
-	  return (List<ESearching>) getJdbcTemplate().query(
-		        sql,
-		        ROW_MAPPER);
+	  String sqlPrefix = strs("select e_s.searching_id, e_s.description, e_s.user_id,",
+	  		"e_s.search_type_code, e_s.create_date, e_s.active",
+	  		"from e_searching e_s",
+		  		"inner join e_user e_u",
+		  		"on e_s.user_id = e_u.user_id ");
+	  
+	  return (List<ESearching>) getJdbcTemplate().query(sqlPrefix + cb.toString(),
+			  cb.getParameters(),
+			  ROW_MAPPER_ACTIVE_SEARCH);
   }
+  
+  protected static final RowMapper<ESearching> ROW_MAPPER_ACTIVE_SEARCH = new RowMapper<ESearching>() {
+	    public ESearching mapRow(ResultSet rs, int index) throws SQLException {
+	      ESearching result = new ESearching();
+	
+	      result.setSearchingId( (Integer) rs.getObject("e_s.searching_id") );
+	      result.setDescription( rs.getString("e_s.description") );
+	      result.setUserId( rs.getString("e_s.user_id") );
+	      result.setSearchTypeCode( (Integer) rs.getObject("e_s.search_type_code") );
+	      result.setCreateDate( rs.getTimestamp("e_s.create_date") );
+	      result.setActive( rs.getString("e_s.active") );
+	
+		      return result;
+		    }
+  };
   
   public int nextSequence(){
       String sql = strs(

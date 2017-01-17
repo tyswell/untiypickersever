@@ -13,7 +13,7 @@ import com.tagtrade.dataacess.entity.bean.RFacebookGroup;
 
 public class RFacebookGroupDAO extends BaseDAO<RFacebookGroup> {
 
-  private static final String FIELD_NAMES = "code, groupname, groupid, web_type_code, active";
+  private static final String FIELD_NAMES = "code, groupname, groupid, web_type_code, facebook_group_type_code, active";
 
   protected static final RowMapper<RFacebookGroup> ROW_MAPPER = new RowMapper<RFacebookGroup>() {
     public RFacebookGroup mapRow(ResultSet rs, int index) throws SQLException {
@@ -23,6 +23,7 @@ public class RFacebookGroupDAO extends BaseDAO<RFacebookGroup> {
       result.setGroupname( rs.getString("groupname") );
       result.setGroupid( rs.getString("groupid") );
       result.setWebTypeCode( (Integer) rs.getObject("web_type_code") );
+      result.setFacebookGroupTypeCode( (Integer) rs.getObject("facebook_group_type_code") );
       result.setActive( rs.getString("active") );
 
       return result;
@@ -31,14 +32,15 @@ public class RFacebookGroupDAO extends BaseDAO<RFacebookGroup> {
 
   public void insert(final RFacebookGroup rFacebookGroup) {
     getJdbcTemplate().update(
-        "insert into r_facebook_group (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?)",
+        "insert into r_facebook_group (" + FIELD_NAMES + ") values(?, ?, ?, ?, ?, ?)",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement pstmt) throws SQLException {
             pstmt.setObject(1, rFacebookGroup.getCode());
             pstmt.setString(2, rFacebookGroup.getGroupname());
             pstmt.setString(3, rFacebookGroup.getGroupid());
             pstmt.setObject(4, rFacebookGroup.getWebTypeCode());
-            pstmt.setString(5, rFacebookGroup.getActive());
+            pstmt.setObject(5, rFacebookGroup.getFacebookGroupTypeCode());
+            pstmt.setString(6, rFacebookGroup.getActive());
           }
         });
   }
@@ -94,14 +96,15 @@ public class RFacebookGroupDAO extends BaseDAO<RFacebookGroup> {
 
   public void updateByKey(final RFacebookGroup rFacebookGroup) {
     getJdbcTemplate().update(
-        "update r_facebook_group set groupname = ?, groupid = ?, web_type_code = ?, active = ? where code = ?",
+        "update r_facebook_group set groupname = ?, groupid = ?, web_type_code = ?, facebook_group_type_code = ?, active = ? where code = ?",
         new PreparedStatementSetter() {
           public void setValues(PreparedStatement ps) throws SQLException {
             ps.setString(1, rFacebookGroup.getGroupname());
             ps.setString(2, rFacebookGroup.getGroupid());
             ps.setObject(3, rFacebookGroup.getWebTypeCode());
-            ps.setString(4, rFacebookGroup.getActive());
-            ps.setObject(5, rFacebookGroup.getCode());
+            ps.setObject(4, rFacebookGroup.getFacebookGroupTypeCode());
+            ps.setString(5, rFacebookGroup.getActive());
+            ps.setObject(6, rFacebookGroup.getCode());
           }
         });
   }
@@ -118,7 +121,7 @@ public class RFacebookGroupDAO extends BaseDAO<RFacebookGroup> {
 
   /**
   *******************************************************************************
-  * Code Generated on   2016-10-03,   17:12:37
+  * Code Generated on   2017-01-17,   19:05:44
   *
   * If you want to add your code, please insert it below.
   *******************************************************************************

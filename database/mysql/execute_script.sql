@@ -8,6 +8,7 @@ source D:\wksTYs\tagtrade\tagtrade\database\mysql\table_entity_searching.sql
 
 -- import rdb data
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_URL.sql
+source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_FACEBOOK_GROUP_TYPE.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_FACEBOOK_GROUP.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_SEARCH_TYPE.sql
 source D:\wksTYs\tagtrade\tagtrade\database\mysql\data\1-R\R_WEB_NAME.sql

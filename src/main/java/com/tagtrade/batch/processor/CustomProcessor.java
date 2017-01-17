@@ -6,6 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tagtrade.batch.processor.thaimtb.ThaimtbProcessor;
+import com.tagtrade.batch.processor.webpra.WebpraProcessor;
 import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.constant.WebNameConstant;
 import com.tagtrade.dataacess.entity.bean.RUrl;
@@ -21,6 +22,9 @@ public class CustomProcessor implements ItemProcessor<RUrl, BatchOutput>{
 	
 	@Autowired
 	private FacebookProcessor facebookProcessor;
+	
+	@Autowired
+	private WebpraProcessor webpraProcessor;
 		
 	@Override
 	public BatchOutput process(RUrl url) throws Exception {
@@ -32,6 +36,8 @@ public class CustomProcessor implements ItemProcessor<RUrl, BatchOutput>{
 			return thaimtbProcessor.process(url);
 		} else if (webNameCode == WebNameConstant.FACEBOOK_CODE) {
 			return facebookProcessor.process();
+		} else if (webNameCode == WebNameConstant.WEBPRA_CODE) {
+			return webpraProcessor.process(url);
 		}
 //		return facebookProcessor.process();
 		

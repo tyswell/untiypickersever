@@ -22,6 +22,7 @@ import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.bean.SearchContentResult;
 import com.tagtrade.bean.thaimtb.SearchMapContent;
 import com.tagtrade.comparator.ContentComparator;
+import com.tagtrade.constant.FacebookGroupType;
 import com.tagtrade.dataacess.entity.bean.EContent;
 import com.tagtrade.dataacess.entity.bean.ESearching;
 import com.tagtrade.dataacess.entity.bean.RFacebookGroup;
@@ -80,7 +81,7 @@ public class FacebookProcessor {
 			List<Content> contents = convert(groupData, facebookResponse);
 			Collections.sort(contents, new ContentComparator());// sort latest date first
 			EContent lastestRow = getLatestRow(groupData.getCode());
-			List<EContent> newInsertRows =  setID(fillterRow(contents, lastestRow));
+			List<EContent> newInsertRows =  setID(fillterRow(contents, lastestRow, groupData.getFacebookGroupTypeCode()));
 			List<ESearching> listSearch = getSearchWord(groupData.getWebTypeCode());
 			List<SearchMapContent> listMatchData = search(newInsertRows, listSearch);
 			
@@ -130,8 +131,7 @@ public class FacebookProcessor {
 	private BatchRequest getGroupBatchRequest(String groupId) {
 		return new BatchRequest.BatchRequestBuilder(
 				groupId + "/" + FEED_DESC)
-    	  		.parameters(Parameter.with("fields", FIELDS_REQUEST),
-					Parameter.with("limit", 10))
+    	  		.parameters(Parameter.with("fields", FIELDS_REQUEST))
 					.build();
 	}
 	
@@ -166,16 +166,20 @@ public class FacebookProcessor {
     	return contents;
 	}
 		
-	private List<EContent> fillterRow(List<Content> contents, EContent lastestRow) {
+	private List<EContent> fillterRow(List<Content> contents, EContent lastestRow, int facebookGroupType) {
 		List<EContent> unInsertRows = new ArrayList<>();
 		
 		for (Content newsRow : contents) {
 			boolean isCorrect = true;
 			if (newsRow.getDescription() == null || 
-					newsRow.getDescription().length() >= 1000 ||
-					newsRow.getDescription().contains(SOLD_DESC) ||
-					!newsRow.getDescription().contains(BATH_SIGN_DESC)){
+					newsRow.getDescription().length() >= 1000) {
 				isCorrect = false;
+			}
+			if (isCorrect && facebookGroupType == FacebookGroupType.SALE_CODE) {
+				if (newsRow.getDescription().contains(SOLD_DESC) ||
+						!newsRow.getDescription().contains(BATH_SIGN_DESC)) {
+					isCorrect = false;
+				}
 			}
 			if (newsRow.getTitle() == null || 
 					newsRow.getDescription().length() >= 500){
