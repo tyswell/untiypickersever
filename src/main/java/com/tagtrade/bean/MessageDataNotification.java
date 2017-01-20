@@ -11,7 +11,7 @@ public class MessageDataNotification {
     private String title_content;
     private String web_name;
     private String url;
-    private Date matching_date;
+    private String matching_date;
     
     
 	public Integer getContent_id() {
@@ -56,10 +56,10 @@ public class MessageDataNotification {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Date getMatching_date() {
+	public String getMatching_date() {
 		return matching_date;
 	}
-	public void setMatching_date(Date matching_date) {
+	public void setMatching_date(String matching_date) {
 		this.matching_date = matching_date;
 	}
     

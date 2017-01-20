@@ -124,7 +124,7 @@ public class CustomWriter implements ItemWriter<BatchOutput>{
 				FirebaseNotificaiton firebase = new FirebaseNotificaiton();
 				firebase.setTo(device.getTokenNotification());
 				MessageDataNotification msg = new MessageDataNotification();
-				msg.setMatching_date(DateUtil.getNow());
+				msg.setMatching_date(DateUtil.formatDateTime(DateUtil.getNow()));
 				msg.setSeacrh_word_id(eSearching.getSearchingId());
 				msg.setSearch_word_desc(eSearching.getDescription());
 				msg.setContent_id(content.getContentId());
