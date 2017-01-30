@@ -40,9 +40,9 @@ public class SearchingServiceImpl implements SearchingService {
 	}
 
 	@Override
-	public ESearching addSearching(FirebaseUser user, Searching search) {
+	public ESearching addSearching(String userId, Searching search) {
 		int id = getNextId();
-		ESearching eSearching = SearchingMapper.mapToDAO(user, search);
+		ESearching eSearching = SearchingMapper.mapToDAO(userId, search);
 		eSearching.setSearchingId(id);
 		eSearching.setCreateDate(DateUtil.getTimestampNow());
 		eSearching.setActive(StatusConst.ACTIVE);

@@ -15,7 +15,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -28,6 +28,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import com.tagtrade.bean.SearchContentResult;
 import com.tagtrade.constant.LuceneConstant;
 import com.tagtrade.dataacess.entity.bean.EContent;
+import com.tagtrade.util.TimestampUtil;
 
 public class BaseLucene {
 	
@@ -35,24 +36,33 @@ public class BaseLucene {
 	private Analyzer analyzer = new ThaiAnalyzer();
 	private IndexWriter writer;
 	private IndexSearcher searcher;
-		
-	public BaseLucene(List<EContent> contents) {
+			
+	
+	public void initCreateIndex() {
 		writer = initIndex();
-		addDataToIndex(contents); // close writer
+	}
+	
+	public void initSearch() {
 		searcher = initIndexSearch();
 	}
 		
-	public List<SearchContentResult> search(String word, String field) {
+	public List<SearchContentResult> search(String word, int indexSearchPage, int takeRecords) {
 		List<SearchContentResult> matchDatas = new ArrayList<>();
-		QueryParser queryP = new QueryParser(field, analyzer);
-		int numResults = 100;
+//		QueryParser queryP = new QueryParser(field, analyzer);
+		MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
+                new String[] {LuceneConstant.TITLE_CONTENT, LuceneConstant.DESCRIP_CONTENT},
+                analyzer);
 
 		try {
-			Query query = queryP.parse(word);
-			TopDocs hits = searcher.search(query, numResults);
+			Query query = queryParser.parse(word);
+			TopDocs hits = searcher.search(query, indexSearchPage + takeRecords);
 			ScoreDoc [] scores = hits.scoreDocs;
 			
-			for (int i = 0; i < scores.length; i++) {
+			for (int i = indexSearchPage; i < hits.totalHits; i++) {
+				if (i > (indexSearchPage + takeRecords) - 1) {
+				      break;
+				}
+				
 				Document doc = searcher.doc(scores[i].doc);
 				SearchContentResult result = new SearchContentResult();
 				EContent content = new EContent();
@@ -61,10 +71,12 @@ public class BaseLucene {
 				content.setDescription( doc.getField(LuceneConstant.DESCRIP_CONTENT).stringValue() );
 				content.setUrlCode( doc.getField(LuceneConstant.URL_CODE).numericValue().intValue() );
 				content.setFacebookGropCode(doc.getField(LuceneConstant.FACEBOOK_GROUP_CODE).numericValue().intValue());
-//				content.setDateContentCreate( doc.getField(LuceneConstant.DATE_CONTENT_CREATE).stringValue() );
+				content.setCreateDate( TimestampUtil.stringToTimestampThaiFormat(doc.getField(LuceneConstant.DATE_CONTENT_CREATE).stringValue()) );
+				content.setUrlContentLink( doc.getField(LuceneConstant.URL_CONTENT_LINK).stringValue() );
 				
 				result.seteContent(content);
 				result.setScoreHit(scores[i].score);
+				
 				matchDatas.add(result);
 			}
 			
@@ -105,7 +117,7 @@ public class BaseLucene {
 		}
 	}
 
-	private void addDataToIndex(List<EContent> datas) {
+	public void addDataToIndex(List<EContent> datas) {
 		try {
 			for (EContent data : datas) {
 				Document doc = new Document();
@@ -115,7 +127,7 @@ public class BaseLucene {
 				doc.add(new IntField(LuceneConstant.URL_CODE, data.getUrlCode(), Field.Store.YES));
 				doc.add(new IntField(LuceneConstant.FACEBOOK_GROUP_CODE, changeNullData(data.getFacebookGropCode()), Field.Store.YES));
 				doc.add(new TextField(LuceneConstant.URL_CONTENT_LINK, changeNullData(data.getUrlContentLink()), Field.Store.YES));
-//				doc.add(new TextField(LuceneConstant.DATE_CONTENT_CREATE, data.getDateContentCreate(), Field.Store.YES));
+				doc.add(new TextField(LuceneConstant.DATE_CONTENT_CREATE, TimestampUtil.timestampToStringThaiFormat( data.getCreateDate() ), Field.Store.YES));
 				writer.addDocument(doc);
 			}
 			
@@ -140,6 +152,12 @@ public class BaseLucene {
 		} else {
 			return data;
 		}
+	}
+	
+	
+	public static void main(String[] args) {
+		String a = "2560-01-25 21:21:06:000";
+		System.out.println(TimestampUtil.parseToTimetamp(a));
 	}
 
 

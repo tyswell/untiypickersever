@@ -13,6 +13,8 @@ import com.tagtrade.service.firebase.FirebaseService;
 import com.tagtrade.service.firebase.FirebaseServiceImpl;
 import com.tagtrade.service.mobile.MobileService;
 import com.tagtrade.service.mobile.MobileServiceImpl;
+import com.tagtrade.service.searching.SearchLuceneService;
+import com.tagtrade.service.searching.SearchLuceneServiceImpl;
 import com.tagtrade.service.searching.SearchingService;
 import com.tagtrade.service.searching.SearchingServiceImpl;
 import com.tagtrade.service.url.FacebookGroupService;
@@ -61,5 +63,10 @@ public class ServiceConfig {
 	@Bean
 	public DeviceService deviceService() {
 		return new DeviceServiceImpl();
+	}
+	
+	@Bean
+	public SearchLuceneService searchLuceneService() {
+		return new SearchLuceneServiceImpl();
 	}
 }

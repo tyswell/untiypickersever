@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-/*
- * 1.01 am delete old data in DB
- */
+
+// 1.15 am delete old data in DB
+
+// 2.15 am regenerate lucene index
+
 /*
  * 0-5   every 60 min
  * 5-6   every 30 min
@@ -40,6 +42,9 @@ public class Scheduler {
 	@Autowired
 	Job clearDBJob;
 	
+	@Autowired
+	Job genLuceneIndexJob;
+	
 	private Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
 //	@Scheduled(fixedDelayString="300000")
@@ -55,6 +60,21 @@ public class Scheduler {
 				"time", System.currentTimeMillis()).toJobParameters();
 		try {
 			JobExecution execution = jobLauncher.run(clearDBJob,
+					jobParameters);
+			System.out.println("Exit Status : " + execution.getStatus());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Scheduled(cron = "0 15 2 * * ?")
+	public void taskLuceneIndexGen() {
+		logger.debug("RUN TASK REGENERATE LUCENE INDEX");
+		
+		JobParameters jobParameters = new JobParametersBuilder().addLong(
+				"time", System.currentTimeMillis()).toJobParameters();
+		try {
+			JobExecution execution = jobLauncher.run(genLuceneIndexJob,
 					jobParameters);
 			System.out.println("Exit Status : " + execution.getStatus());
 		} catch (Exception e) {

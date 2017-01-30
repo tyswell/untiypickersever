@@ -1,5 +1,7 @@
 package com.tagtrade.service.content;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tagtrade.dataacess.entity.bean.EContent;
@@ -37,6 +39,11 @@ public class ContentServiceImpl implements ContentService {
 		SContent sContent = new SContent();
 		sContent.setId(id);
 		sContentDAO.insert(sContent);
+	}
+
+	@Override
+	public List<EContent> getAllContent() {
+		return eContentDAO.selectAll();
 	}
 
 }

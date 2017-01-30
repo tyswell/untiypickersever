@@ -277,9 +277,25 @@ public class FacebookProcessor {
 	public static String getTitle(String description) {
 		if (description != null) {
 			if (description.contains(BATH_SIGN_DESC)) {
-				return description.substring(0, description.indexOf(BATH_SIGN_DESC));
+				String title = description.substring(0, description.indexOf(BATH_SIGN_DESC));
+				if (!"".equals(title.trim())) {
+					System.out.println("title = "+title);
+					return title;
+				} else {
+					if (description.contains("\n")) {
+						for (String line : description.split("\n")) {
+							System.out.println("line="+line);
+							if (!line.contains(BATH_SIGN_DESC) && ! "".equals(line.trim())) {
+								return line;
+							}
+						}
+					}
+				}
+				
 			}
-		}
+		} 
+		
+		
 		
 		return description;
 	}

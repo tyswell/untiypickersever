@@ -33,6 +33,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.tagtrade.batch.processor.CustomProcessor;
 import com.tagtrade.batch.tasklet.ClearDBTasklet;
+import com.tagtrade.batch.tasklet.GenLuceneIndexTasklet;
 import com.tagtrade.batch.writer.CustomWriter;
 import com.tagtrade.bean.BatchOutput;
 import com.tagtrade.dataacess.entity.bean.EContent;
@@ -161,6 +162,28 @@ public class BatchConfig {
     public Tasklet clearDBTasklet() {
         return new ClearDBTasklet();
     }
+	 
+	//------------------------------------------------------------------------------
+	 
+		@Bean
+		public Job genLuceneIndexJob(JobBuilderFactory jobs, Step stepGenLuceneIndex) {
+			return jobs.get("genLuceneIndexJob")
+					.flow(stepGenLuceneIndex)
+					.end()
+					.build();
+		}
+		
+		@Bean
+		public Step stepGenLuceneIndex(StepBuilderFactory sbf) {
+			return sbf.get("stepGenLuceneIndex")
+					.tasklet(genLuceneIndexTasklet())
+					.build();
+		}
+		
+		 @Bean
+	    public Tasklet genLuceneIndexTasklet() {
+	        return new GenLuceneIndexTasklet();
+	    }
 
 
 }
